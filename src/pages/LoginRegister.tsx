@@ -8,7 +8,7 @@ const LoginRegister: FC = memo(() => {
   useAuth(true)
 
   return (
-    <Flex as="main" column justifyCenter style={{ height: "100vh" }}>
+    <Flex column justifyCenter as="main" style={{ height: "100vh" }}>
       <Flex justifyContent="space-evenly">
         <Flex.Item style={{ width: "35vw" }}>
           <LoginForm />

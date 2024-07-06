@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai"
-import { useNavigate, useNavigation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { getLoggedInAccount, isLoggedIn } from "@/atoms"
 
