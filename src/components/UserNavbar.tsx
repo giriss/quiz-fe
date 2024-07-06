@@ -18,7 +18,8 @@ const UserNavbar: FC<UserNavbarProps> = memo(({ name, onLogout }) => (
         placement="bottom-end"
         content={
           <Menu>
-            <MenuItem text="Log out" onClick={onLogout} />
+            <MenuItem icon="id-number" text="My Profile" />
+            <MenuItem icon="log-out" text="Log Out" onClick={onLogout} />
           </Menu>
         }
       >

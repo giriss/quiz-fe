@@ -1,5 +1,5 @@
 import { memo, type FC } from "react"
-import { Button, FormGroup, H1, InputGroup } from "@blueprintjs/core"
+import { Button, Card, Elevation, FormGroup, H1, InputGroup } from "@blueprintjs/core"
 import Flex from "@react-css/flex"
 import { Controller, useForm } from "react-hook-form"
 import { useSetAtom } from "jotai"
@@ -18,7 +18,7 @@ const LoginForm: FC = memo(() => {
   const login = useSetAtom(postLogin)
 
   return (
-    <>
+    <Card elevation={Elevation.THREE}>
       <H1 style={{ marginBottom: "10px" }}>Login</H1>
       <form onSubmit={handleSubmit(login)}>
         <Controller
@@ -76,7 +76,7 @@ const LoginForm: FC = memo(() => {
           <Button intent="primary" type="submit" disabled={!isValid}>Login</Button>
         </Flex>
       </form>
-    </>
+    </Card>
   )
 })
 

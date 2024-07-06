@@ -1,11 +1,11 @@
 import { H1 } from "@blueprintjs/core";
-import { type FC } from "react";
+import { memo, type FC } from "react";
 import { useSetAtom } from "jotai";
 import { useAccount } from "@/utils";
 import { UserNavbar } from "@/components";
 import { logout } from "@/atoms";
 
-const Dashboard: FC = () => {
+const Dashboard: FC = memo(() => {
   const account = useAccount()
   const handleLogout = useSetAtom(logout)
 
@@ -15,6 +15,8 @@ const Dashboard: FC = () => {
       <H1>Hello {account.name}</H1>
     </>
   )
-}
+})
+
+Dashboard.displayName = "Dashboard"
 
 export default Dashboard

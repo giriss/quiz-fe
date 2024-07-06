@@ -1,5 +1,5 @@
 import { atom } from "jotai"
-import { type UserResponse, login, me } from "@/api"
+import { UserLogin, UserRegister, type UserResponse, login, me, register } from "@/api"
 
 export const loggedInToken = atom<string | undefined>(undefined)
 export const loggedInAccount = atom<UserResponse | undefined>(undefined)
@@ -21,13 +21,22 @@ export const savedLoggedInToken = atom<string | undefined, [string | undefined],
 export const isLoggedIn = atom(get => !!get(savedLoggedInToken))
 export const logout = atom(null, (_get, set) => set(savedLoggedInToken, undefined))
 
-export const postLogin = atom<null, [{ email: string, password: string }], void>(
+export const postLogin = atom<null, [UserLogin], void>(
   null,
   async (_, set, payload) => {
     const [account, token] = await login(payload)
     set(savedLoggedInToken, token)
     set(loggedInAccount, account)
   },
+)
+
+export const postRegister = atom<null, [UserRegister], void>(
+  null,
+  async (_, set, payload) => {
+    const [account, token] = await register(payload)
+    set(savedLoggedInToken, token)
+    set(loggedInAccount, account)
+  }
 )
 
 export const getLoggedInAccount = atom(
