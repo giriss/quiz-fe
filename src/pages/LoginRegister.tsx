@@ -3,12 +3,17 @@ import { Divider } from "@blueprintjs/core";
 import Flex from "@react-css/flex";
 import { LoginForm, RegisterForm } from "@/components";
 import { useAuth } from "@/utils";
+import styled from "styled-components";
+
+const FullHeightFlex = styled(Flex)`
+  min-height: 100vh;
+`
 
 const LoginRegister: FC = memo(() => {
   useAuth(true)
 
   return (
-    <Flex column justifyCenter as="main" style={{ height: "100vh" }}>
+    <FullHeightFlex column justifyCenter>
       <Flex justifyContent="space-evenly">
         <Flex.Item style={{ width: "35vw" }}>
           <LoginForm />
@@ -18,7 +23,7 @@ const LoginRegister: FC = memo(() => {
           <RegisterForm />
         </Flex.Item>
       </Flex>
-    </Flex>
+    </FullHeightFlex>
   )
 })
 
