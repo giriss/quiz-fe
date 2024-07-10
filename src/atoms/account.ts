@@ -82,25 +82,25 @@ export const createEmail = atom(
 
 export const removeEmail = atom(
   null,
-  async (get, set, uuid: string) => {
+  async (get, set, address: string) => {
     const token = get(savedLoggedInToken)
     if (!token) {
       return undefined
     }
-    const newToken = await deleteEmail(uuid, token)
-    set(acccountEmails, get(acccountEmails)?.filter(({ id }) => id !== uuid))
+    const newToken = await deleteEmail(address, token)
+    set(acccountEmails, get(acccountEmails)?.filter(email => email.address !== address))
     set(savedLoggedInToken, newToken)
   },
 )
 
 export const makePrimaryEmail = atom(
   null,
-  async (get, set, uuid: string) => {
+  async (get, set, address: string) => {
     const token = get(savedLoggedInToken)
     if (!token) {
       return undefined
     }
-    const newToken = await patchPrimaryEmail(uuid, token)
+    const newToken = await patchPrimaryEmail(address, token)
     set(savedLoggedInToken, newToken)
     set(
       acccountEmails,
@@ -108,7 +108,7 @@ export const makePrimaryEmail = atom(
         if (email.primary) {
           return [...memo, { ...email, primary: false }]
         }
-        if (email.id === uuid) {
+        if (email.address === address) {
           return [...memo, { ...email, primary: true }]
         }
         return [...memo, email]

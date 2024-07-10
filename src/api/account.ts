@@ -21,7 +21,6 @@ export interface EmailCreate {
 }
 
 export interface EmailResponse extends EmailCreate {
-  id: string
   verified: boolean
   primary: boolean
   createdAt: Date
@@ -60,12 +59,12 @@ export const postEmail = async (params: EmailCreate, token: string): Promise<[Em
   return returnWithToken({ createdAt, ...others }, response.headers.get("x-token")!)
 }
 
-export const deleteEmail = async (id: string, token: string): Promise<string> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/emails/${id}`, withoutBody(token, "DELETE"))
+export const deleteEmail = async (address: string, token: string): Promise<string> => {
+  const response = await fetch(`${REST_ENDPOINT}accounts/emails/${encodeURIComponent(address)}`, withoutBody(token, "DELETE"))
   return response.headers.get("x-token")!
 }
 
-export const patchPrimaryEmail = async (id: string, token: string): Promise<string> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/emails/${id}/primary`, withoutBody(token, "PATCH"))
+export const patchPrimaryEmail = async (address: string, token: string): Promise<string> => {
+  const response = await fetch(`${REST_ENDPOINT}accounts/emails/${encodeURIComponent(address)}/primary`, withoutBody(token, "PATCH"))
   return response.headers.get("x-token")!
 }
