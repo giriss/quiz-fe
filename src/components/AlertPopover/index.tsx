@@ -21,7 +21,7 @@ const AlertContainer = styled.aside`
   }
 
   button + button {
-    margin-left: 10px;
+    margin-left: 5px;
   }
 `
 
@@ -64,7 +64,7 @@ const AlertPopover = memo(forwardRef<Popover, AlertPopoverProps>(({
           {title && <H5>{title}</H5>}
           {description && <div>{description}</div>}
           <Flex justifyEnd>
-            <Button className={Classes.POPOVER_DISMISS}>Cancel</Button>
+            <Button minimal className={Classes.POPOVER_DISMISS}>Cancel</Button>
             {overriddenConfirmButton}
           </Flex>
         </AlertContainer>

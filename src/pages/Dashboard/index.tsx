@@ -7,7 +7,7 @@ import { UserNavbar } from "@/components";
 import { logout } from "@/atoms";
 
 const MainContent = styled.main`
-  max-width: 880px;
+  max-width: 75vw;
   margin: 15px auto 0 auto;
 `
 

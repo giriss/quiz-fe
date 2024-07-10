@@ -1,5 +1,14 @@
 import { Button, InputGroup, Popover } from "@blueprintjs/core"
-import { ChangeEventHandler, KeyboardEventHandler, useCallback, useMemo, useRef, useState, type FC } from "react"
+import {
+  type FC,
+  type ChangeEventHandler,
+  type KeyboardEventHandler,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  memo,
+} from "react"
 import { EMAIL_REGEX } from "@/constants"
 import AlertPopover from "../AlertPopover"
 
@@ -7,9 +16,9 @@ interface AddPopoverProps {
   onAdd: (email: string) => void
 }
 
-const AddEmailPopover: FC<AddPopoverProps> = (({ onAdd }) => {
+const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
   const [newEmail, setNewEmail] = useState("")
-  const newEmailValid = useMemo(() => !!EMAIL_REGEX.test(newEmail), [newEmail])
+  const newEmailValid = useMemo(() => EMAIL_REGEX.test(newEmail), [newEmail])
   const newEmailRef = useRef<HTMLInputElement>(null)
   const popoverRef = useRef<Popover>(null)
   const handleAddEmail = useCallback(() => {
@@ -58,7 +67,7 @@ const AddEmailPopover: FC<AddPopoverProps> = (({ onAdd }) => {
       <Button minimal icon="add" intent="primary" text="Add" />
     </AlertPopover>
   )
-})
+}))
 
 AddEmailPopover.displayName = "AddEmailPopover"
 
