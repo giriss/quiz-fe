@@ -2,7 +2,7 @@ import { type FC, memo } from "react"
 import { Button, Section, SectionCard, CardList, Card, Tag, ButtonGroup, Tooltip } from "@blueprintjs/core"
 import styled from "styled-components"
 import { EmailResponse } from "@/api"
-import { AlertPopover } from "@/components"
+import { AlertPopover, AlertPopoverButton } from "@/components"
 import AddEmailPopover from "./AddEmailPopover"
 
 const EmailCard = styled(Card)`
@@ -45,7 +45,7 @@ const EmailsSection: FC<EmailsSectionProps> = memo(({ emails, onEmailAdd, onEmai
                   title="Confirm deletion"
                   description={<>Are you sure to delete <strong>{address}</strong>?</>}
                   confirmButton={
-                    <Button intent="danger" text="Delete" />
+                    <AlertPopoverButton intent="danger" text="Delete" />
                   }
                   onConfirm={() => onEmailDelete(address)}
                 >

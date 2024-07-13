@@ -10,7 +10,7 @@ import {
   memo,
 } from "react"
 import { EMAIL_REGEX } from "@/constants"
-import AlertPopover from "../AlertPopover"
+import { AlertPopover, AlertPopoverButton } from "@/components"
 
 interface AddPopoverProps {
   onAdd: (email: string) => void
@@ -24,7 +24,7 @@ const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
   const handleAddEmail = useCallback(() => {
     onAdd(newEmail)
     popoverRef.current?.setState(state => ({ ...state, isOpen: false }))
-  }, [newEmail])
+  }, [newEmail, onAdd])
 
   const handlePopoverOpen = useCallback(() => {
     newEmailRef.current?.focus()
@@ -42,7 +42,7 @@ const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
     if (code === "Enter" && newEmailValid) {
       handleAddEmail()
     }
-  }, [handleAddEmail])
+  }, [handleAddEmail, newEmailValid])
 
   return (
     <AlertPopover
@@ -52,7 +52,7 @@ const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
       onOpened={handlePopoverOpen}
       onOpening={handlePopoverOpening}
       confirmButton={
-        <Button text="Add" disabled={!newEmailValid} />
+        <AlertPopoverButton text="Add" disabled={!newEmailValid} />
       }
       description={
         <InputGroup
