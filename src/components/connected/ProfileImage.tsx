@@ -1,5 +1,5 @@
 import { FC, memo, useCallback, useMemo, useState } from "react"
-import { Button, Card, Classes, H6 } from "@blueprintjs/core"
+import { Button, Classes, H6, Section, SectionCard } from "@blueprintjs/core"
 import { useAtomValue, useSetAtom } from "jotai"
 import styled from "styled-components"
 import Flex from "@react-css/flex"
@@ -60,17 +60,21 @@ const ProfileImage: FC = memo(() => {
   const closeFileDrop = useCallback(() => setIsFileDropOpen(false), [])
 
   return (
-    <Card>
-      <H6>Profile Picture</H6>
-      <Flex column alignItemsCenter>
-        <Avatar
-          className={Classes.ELEVATION_2}
-          $src={profilePicture ?? placeholderAvatar}
-        />
-        <SpacedButton intent="primary" onClick={openFileDrop}>
-          {profilePicture ? "Replace" : "Upload"} profile picture
-        </SpacedButton>
-      </Flex>
+    <>
+      <Section
+        title="Profile picture"
+        rightElement={
+          <Button minimal icon="upload" intent="primary" onClick={openFileDrop}>
+            {profilePicture ? "Change" : "Add"} profile picture
+          </Button>
+        }
+      >
+        <SectionCard>
+          <Flex column alignItemsCenter>
+            <Avatar className={Classes.ELEVATION_2} $src={profilePicture ?? placeholderAvatar} />
+          </Flex>
+        </SectionCard>
+      </Section>
       <FileDrop
         accept="image/*"
         subject="profile picture"
@@ -79,7 +83,7 @@ const ProfileImage: FC = memo(() => {
         onClose={closeFileDrop}
         onSubmit={uploadPicture}
       />
-    </Card>
+    </>
   )
 })
 
