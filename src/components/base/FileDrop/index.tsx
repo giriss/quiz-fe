@@ -4,17 +4,11 @@ import styled from "styled-components"
 import { Cross } from "@blueprintjs/icons"
 import clsx from "clsx"
 import { mimeTypeMatchesAccept } from "./utils"
+import DropArea from "./DropArea"
+import Ellipsis from "./Ellipsis"
 
 const CompactDialogBody = styled(DialogBody)`
   padding: 0;
-`
-
-const DropArea = styled.aside`
-  padding: 70px 20px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
 `
 
 interface FileDropProps {
@@ -97,6 +91,7 @@ const FileDrop: FC<FileDropProps> = memo(({
     <Dialog isOpen={open} title={`Upload ${subject}`} icon="upload" onClose={uploading ? undefined : onClose}>
       <CompactDialogBody>
         <DropArea
+          uploading={uploading}
           onClick={handleClick}
           onDrop={handleDrop}
           onDragEnter={handleDrag}
@@ -110,7 +105,7 @@ const FileDrop: FC<FileDropProps> = memo(({
             })}
             icon={isValid ? (uploading ? "cloud-upload" : "tick") : "document"}
             title={isValid ? (
-              uploading ? `Uploading ${subject}...` : (
+              uploading ? <>Uploading {subject}<Ellipsis delay={400} /></> : (
                 `You have selected ${
                   fileList?.length === 1 ? fileList.item(0)?.name : `${fileList?.length} ${subject}`
                 }`
