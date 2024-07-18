@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAccount } from "@/utils";
-import { UserNavbar } from "@/components";
+import { UserNavbar } from "@/components/base";
 import { logout } from "@/atoms";
 
 const MainContent = styled.main`

@@ -2,7 +2,7 @@ import { type FC, memo } from "react"
 import { Button, Section, SectionCard, CardList, Card, Tag, ButtonGroup, Tooltip } from "@blueprintjs/core"
 import styled from "styled-components"
 import { EmailResponse } from "@/api"
-import { AlertPopover, AlertPopoverButton } from "@/components"
+import { AlertPopover, AlertPopoverButton } from "@/components/base"
 import AddEmailPopover from "./AddEmailPopover"
 
 const EmailCard = styled(Card)`

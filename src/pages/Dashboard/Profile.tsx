@@ -1,52 +1,25 @@
-import { type FC, useEffect, memo, useCallback, useMemo } from "react"
-import { useAtom, useSetAtom } from "jotai"
+import { type FC, memo, useCallback, useState } from "react"
 import Flex from "@react-css/flex"
-import { createEmail, getEmails, makePrimaryEmail, removeEmail } from "@/atoms"
-import { EmailsSection } from "@/components"
+import { ProfileEmails, ProfileImage } from "@/components/connected"
+import styled from "styled-components"
+
+const SpacedFlexItem = styled(Flex.Item)`
+  margin-right: 15px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`
 
 const Profile: FC = memo(() => {
-  const [emails, fetchEmails] = useAtom(getEmails)
-  const postEmail = useSetAtom(createEmail)
-  const deleteEmail = useSetAtom(removeEmail)
-  const primaryEmail = useSetAtom(makePrimaryEmail)
-  const handleEmailDelete = useCallback(deleteEmail, [])
-  const handleEmailPrimary = useCallback(primaryEmail, [])
-  const handleEmailAdd = useCallback((address: string) => {
-    postEmail({ address })
-  }, [])
-
-  useEffect(() => {
-    if (!emails) {
-      fetchEmails()
-    }
-  }, [emails])
-
-  const orderedEmails = useMemo(() => {
-    if (!emails) {
-      return undefined
-    }
-    const primaryEmail = emails.find(({ primary }) => primary)!
-    const verifiedEmails = emails.filter(({ primary, verified }) => !primary && verified)
-    return [
-      primaryEmail,
-      ...verifiedEmails,
-      ...emails.filter(email => [primaryEmail, ...verifiedEmails].indexOf(email) < 0)
-    ]
-  }, [emails])
-
-  return !orderedEmails ? null : (
+  return (
     <Flex row>
-      <Flex.Item flex={1}>
-        <EmailsSection
-          emails={orderedEmails}
-          onEmailAdd={handleEmailAdd}
-          onEmailDelete={handleEmailDelete}
-          onEmailPrimary={handleEmailPrimary}
-        />
-      </Flex.Item>
-      <Flex.Item flex={1}>
-        <div />
-      </Flex.Item>
+      <SpacedFlexItem flex={1}>
+        <ProfileImage />
+      </SpacedFlexItem>
+      <SpacedFlexItem flex={1}>
+        <ProfileEmails />
+      </SpacedFlexItem>
     </Flex>
   )
 })

@@ -1,8 +1,7 @@
 import { atom } from "jotai"
-import { UserLogin, UserRegister, type UserResponse, login, me, register, EmailResponse, fetchEmails, postEmail, EmailCreate, deleteEmail, patchPrimaryEmail } from "@/api"
+import { UserLogin, UserRegister, type UserResponse, login, me, register, EmailResponse, fetchEmails, postEmail, EmailCreate, deleteEmail, patchPrimaryEmail, postProfilePicture } from "@/api"
 
 export const loggedInToken = atom<string | undefined>(undefined)
-export const loggedInAccount = atom<UserResponse | undefined>(undefined)
 export const savedLoggedInToken = atom<string | undefined, [string | undefined], void>(
   get => {
     const token = get(loggedInToken)
@@ -18,6 +17,7 @@ export const savedLoggedInToken = atom<string | undefined, [string | undefined],
     }
   }
 )
+export const loggedInAccount = atom<UserResponse | undefined>(undefined)
 export const isLoggedIn = atom(get => !!get(savedLoggedInToken))
 export const logout = atom(null, (_get, set) => set(savedLoggedInToken, undefined))
 
@@ -115,4 +115,23 @@ export const makePrimaryEmail = atom(
       }, Array<EmailResponse>())
     )
   },
+)
+
+export const uploadProfilePicture = atom(
+  null,
+  async (get, set, file: File) => {
+    const token = get(savedLoggedInToken)
+    if (!token) {
+      return undefined
+    }
+    const response = await postProfilePicture(file, token)
+    if (!response) {
+      return undefined
+    }
+
+    const [{ pictureId }, newToken] = response
+    const account = get(loggedInAccount)!
+    set(savedLoggedInToken, newToken)
+    set(loggedInAccount, { ...account, pictureId })
+  }
 )

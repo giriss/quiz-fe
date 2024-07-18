@@ -1,7 +1,7 @@
 import { type FC, memo } from "react";
 import { Divider } from "@blueprintjs/core";
 import Flex from "@react-css/flex";
-import { LoginForm, RegisterForm } from "@/components";
+import { LoginForm, RegisterForm } from "@/components/base";
 import { useAuth } from "@/utils";
 import styled from "styled-components";
 

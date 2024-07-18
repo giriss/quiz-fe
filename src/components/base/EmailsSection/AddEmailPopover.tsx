@@ -10,7 +10,7 @@ import {
   memo,
 } from "react"
 import { EMAIL_REGEX } from "@/constants"
-import { AlertPopover, AlertPopoverButton } from "@/components"
+import { AlertPopover, AlertPopoverButton } from "@/components/base"
 
 interface AddPopoverProps {
   onAdd: (email: string) => void

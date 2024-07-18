@@ -1,8 +1,8 @@
-import type { FC } from 'react'
+import { memo, type FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { LoginRegister, Dashboard, DashboardHome, DashboardProfile } from '@/pages'
 
-const App: FC = () => (
+const App: FC = memo(() => (
   <Routes>
     <Route path="/" element={<LoginRegister />} />
     <Route path="/dashboard" element={<Dashboard />}>
@@ -10,6 +10,6 @@ const App: FC = () => (
       <Route path="/dashboard/profile" element={<DashboardProfile />} />
     </Route>
   </Routes>
-)
+))
 
 export default App
