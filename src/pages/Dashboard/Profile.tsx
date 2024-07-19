@@ -1,4 +1,4 @@
-import { type FC, memo, useCallback, useState } from "react"
+import { type FC, memo } from "react"
 import Flex from "@react-css/flex"
 import { ProfileEmails, ProfileImage } from "@/components/connected"
 import styled from "styled-components"

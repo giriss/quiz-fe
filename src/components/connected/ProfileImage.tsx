@@ -37,14 +37,12 @@ const ProfileImage: FC = memo(() => {
   const authorization = `Bearer ${useAtomValue(loggedInToken)}`
   const account = useAccount()
   const profilePicture = useMemo(() => {
-    if (!account || !account.pictureId) {
-      return
+    if (account?.id && account.pictureId) {
+      return cloudinary
+        .image(`${account.id}_${account.pictureId}`)
+        .resize(thumbnail(200, 200).gravity(focusOn(face())).zoom(.85))
+        .toURL()
     }
-
-    return cloudinary
-      .image(`${account.id}_${account.pictureId}`)
-      .resize(thumbnail(200, 200).gravity(focusOn(face())).zoom(.85))
-      .toURL()
   }, [account?.id, account?.pictureId])
   const uploadPicture = useCallback(async (fileList: FileList) => {
     const file = fileList.item(0)
