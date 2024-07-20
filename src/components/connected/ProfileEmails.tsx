@@ -1,9 +1,9 @@
-import { FC, memo, useCallback, useEffect, useMemo } from "react"
+import { memo, useCallback, useEffect, useMemo } from "react"
 import { useAtom, useSetAtom } from "jotai"
 import { createEmail, getEmails, makePrimaryEmail, removeEmail } from "@/atoms"
 import { EmailsSection } from "../base"
 
-const ProfileEmails: FC = memo(() => {
+const ProfileEmails = memo(() => {
   const [emails, fetchEmails] = useAtom(getEmails)
   const postEmail = useSetAtom(createEmail)
   const deleteEmail = useSetAtom(removeEmail)
@@ -42,5 +42,7 @@ const ProfileEmails: FC = memo(() => {
     />
   )
 })
+
+ProfileEmails.displayName = "ProfileEmails"
 
 export default ProfileEmails

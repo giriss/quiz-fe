@@ -1,4 +1,4 @@
-import { memo, useCallback, type FC } from "react";
+import { memo, useCallback } from "react";
 import { useSetAtom } from "jotai";
 import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const MainContent = styled.main`
   margin: 15px auto 0 auto;
 `
 
-const Dashboard: FC = memo(() => {
+const Dashboard = memo(() => {
   const account = useAccount()
   const handleLogout = useSetAtom(logout)
   const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import { type FC, memo } from "react"
+import { memo } from "react"
 import Flex from "@react-css/flex"
 import { ProfileEmails, ProfileImage } from "@/components/connected"
 import styled from "styled-components"
@@ -11,7 +11,7 @@ const SpacedFlexItem = styled(Flex.Item)`
   }
 `
 
-const Profile: FC = memo(() => {
+const Profile = memo(() => {
   return (
     <Flex row>
       <SpacedFlexItem flex={1}>

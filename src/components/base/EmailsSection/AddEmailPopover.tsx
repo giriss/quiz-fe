@@ -1,6 +1,5 @@
 import { Button, InputGroup, Popover } from "@blueprintjs/core"
 import {
-  type FC,
   type ChangeEventHandler,
   type KeyboardEventHandler,
   useCallback,
@@ -13,10 +12,10 @@ import { EMAIL_REGEX } from "@/constants"
 import { AlertPopover, AlertPopoverButton } from "@/components/base"
 
 interface AddPopoverProps {
-  onAdd: (email: string) => void
+  readonly onAdd: (email: string) => void
 }
 
-const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
+const AddEmailPopover = memo((({ onAdd }: AddPopoverProps) => {
   const [newEmail, setNewEmail] = useState("")
   const newEmailValid = useMemo(() => EMAIL_REGEX.test(newEmail), [newEmail])
   const newEmailRef = useRef<HTMLInputElement>(null)
@@ -48,9 +47,6 @@ const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
     <AlertPopover
       ref={popoverRef}
       title="Add email address"
-      onConfirm={handleAddEmail}
-      onOpened={handlePopoverOpen}
-      onOpening={handlePopoverOpening}
       confirmButton={
         <AlertPopoverButton text="Add" disabled={!newEmailValid} />
       }
@@ -63,6 +59,9 @@ const AddEmailPopover: FC<AddPopoverProps> = memo((({ onAdd }) => {
           onKeyDown={handleEnterKey}
         />
       }
+      onConfirm={handleAddEmail}
+      onOpened={handlePopoverOpen}
+      onOpening={handlePopoverOpening}
     >
       <Button minimal icon="add" intent="primary" text="Add" />
     </AlertPopover>

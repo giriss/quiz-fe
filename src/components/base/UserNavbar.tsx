@@ -1,13 +1,13 @@
 import { AnchorButton, Menu, MenuItem, Navbar, Popover } from "@blueprintjs/core"
-import { memo, type FC } from "react"
+import { memo } from "react"
 
 export interface UserNavbarProps {
-  name: string
-  onMyProfile?: VoidFunction
-  onLogout?: VoidFunction
+  readonly name: string
+  readonly onMyProfile?: VoidFunction
+  readonly onLogout?: VoidFunction
 }
 
-const UserNavbar: FC<UserNavbarProps> = memo(({ name, onMyProfile, onLogout }) => (
+const UserNavbar = memo(({ name, onMyProfile, onLogout }: UserNavbarProps) => (
   <Navbar>
     <Navbar.Group align="left">
       <Navbar.Heading>Quiz</Navbar.Heading>

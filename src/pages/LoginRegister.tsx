@@ -1,7 +1,7 @@
-import { type FC, memo } from "react";
+import { memo } from "react";
 import { Divider } from "@blueprintjs/core";
 import Flex from "@react-css/flex";
-import { LoginForm, RegisterForm } from "@/components/base";
+import { LoginForm, RegisterForm } from "@/components/connected";
 import { useAuth } from "@/utils";
 import styled from "styled-components";
 
@@ -9,7 +9,7 @@ const FullHeightFlex = styled(Flex)`
   min-height: 100vh;
 `
 
-const LoginRegister: FC = memo(() => {
+const LoginRegister = memo(() => {
   useAuth(true)
 
   return (

@@ -1,8 +1,8 @@
-import { type FC, memo } from "react";
+import { memo } from "react";
 import { H1 } from "@blueprintjs/core";
 import { useAccount } from "@/utils";
 
-const Home: FC = memo(() => {
+const Home = memo(() => {
   const account = useAccount()
 
   return !account ? null : (

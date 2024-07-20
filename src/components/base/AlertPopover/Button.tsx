@@ -1,9 +1,9 @@
 import { ButtonProps, Button as BlueprintButton, Classes } from "@blueprintjs/core";
 import clsx from "clsx";
-import { FC, memo, useMemo } from "react";
+import { memo, useMemo } from "react";
 
-const Button: FC<ButtonProps> = memo(
-  ({ className, intent, text, children, ...otherProps }) => {
+const Button = memo(
+  ({ className, intent, text, children, ...otherProps }: ButtonProps) => {
     const hasNoChild = useMemo(
       () => text === undefined && children === undefined,
       [text === undefined && children === undefined]
@@ -15,6 +15,7 @@ const Button: FC<ButtonProps> = memo(
         className={clsx(Classes.POPOVER_DISMISS, className)}
         intent={intent ?? "primary"}
         text={hasNoChild ? "Confirm" : text}
+        // eslint-disable-next-line react/no-children-prop
         children={hasNoChild ? undefined : children}
       />
     )

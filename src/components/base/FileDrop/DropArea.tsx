@@ -1,4 +1,4 @@
-import { ComponentProps, FC, memo } from "react"
+import { type ComponentProps, memo } from "react"
 import styled from "styled-components"
 
 const DropAreaBase = styled.aside<{ $uploading?: boolean }>`
@@ -10,10 +10,10 @@ const DropAreaBase = styled.aside<{ $uploading?: boolean }>`
 `
 
 interface DropAreaProps extends ComponentProps<"aside"> {
-  uploading?: boolean
+  readonly uploading?: boolean
 }
 
-const DropArea: FC<DropAreaProps> = memo(({
+const DropArea = memo(({
   onClick,
   onDrop,
   onDragEnter,
@@ -21,7 +21,7 @@ const DropArea: FC<DropAreaProps> = memo(({
   onDragLeave,
   uploading = false,
   ...otherProps
-}) => (
+}: DropAreaProps) => (
   <DropAreaBase
     $uploading={uploading}
     onClick={uploading ? undefined : onClick}

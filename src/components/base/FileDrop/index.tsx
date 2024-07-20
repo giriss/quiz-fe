@@ -1,5 +1,4 @@
 import {
-  type FC,
   type ChangeEventHandler,
   type DragEventHandler,
   memo,
@@ -22,16 +21,16 @@ const CompactDialogBody = styled(DialogBody)`
 `
 
 interface FileDropProps {
-  onSubmit: (fileList: FileList) => void
-  subject?: string
-  accept?: string
-  open?: boolean
-  multiple?: boolean
-  uploading?: boolean
-  onClose?: VoidFunction
+  readonly onSubmit: (fileList: FileList) => void
+  readonly subject?: string
+  readonly accept?: string
+  readonly open?: boolean
+  readonly multiple?: boolean
+  readonly uploading?: boolean
+  readonly onClose?: VoidFunction
 }
 
-const FileDrop: FC<FileDropProps> = memo(({
+const FileDrop = memo(({
   onSubmit,
   onClose,
   accept,
@@ -39,7 +38,7 @@ const FileDrop: FC<FileDropProps> = memo(({
   open = false,
   multiple = false,
   uploading = false,
-}) => {
+}: FileDropProps) => {
   const [dragging, setDragging] = useState(false)
   const [fileList, setFileList] = useState<FileList>()
 
@@ -110,12 +109,17 @@ const FileDrop: FC<FileDropProps> = memo(({
         >
           <EntityTitle
             ellipsize
+            icon={isValid ? (uploading ? "cloud-upload" : "tick") : "document"}
             className={clsx({
               "animate__animated animate__fast animate__pulse animate__infinite": dragging,
             })}
-            icon={isValid ? (uploading ? "cloud-upload" : "tick") : "document"}
             title={isValid ? (
-              uploading ? <>Uploading {subject}<Ellipsis delay={400} /></> : (
+              uploading ? (
+                <>
+                  {`Uploading ${subject}`}
+                  <Ellipsis delay={400} />
+                </>
+              ) : (
                 `You have selected ${
                   fileList?.length === 1 ? fileList.item(0)?.name : `${fileList?.length} ${subject}`
                 }`
@@ -124,16 +128,18 @@ const FileDrop: FC<FileDropProps> = memo(({
               `Drag and drop ${subject} here or click to select ${subject}`
             )}
           />
-          <input hidden type="file" multiple={multiple} accept={accept} onChange={handleChange} ref={fileInputRef} />
+
+          <input hidden type="file" multiple={multiple} accept={accept} ref={fileInputRef} onChange={handleChange} />
         </DropArea>
       </CompactDialogBody>
+
       <DialogFooter
         actions={[
           <Button key={0} text="Close" disabled={uploading} onClick={onClose} />,
           <Button key={1} text="Upload" intent="primary" disabled={!isValid || uploading} onClick={handleSubmit} />,
         ]}
       >
-        {errors && (
+        {!!errors && (
           <span style={{ color: Colors.RED3 }}><Cross /> {errors}</span>
         )}
       </DialogFooter>

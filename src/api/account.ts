@@ -47,6 +47,7 @@ export const me = async (token: string): Promise<[UserResponse, string]> => {
 
 export const fetchEmails = async (token: string): Promise<[EmailResponse[], string]> => {
   const response = await fetch(`${REST_ENDPOINT}accounts/emails`, withoutBody(token))
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const emailsList: any[] = await response.json()
   return returnWithToken(
     emailsList.map(({ created_at: createdAt, ...others }) => ({ createdAt, ...others })),

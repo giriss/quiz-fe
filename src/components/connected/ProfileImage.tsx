@@ -1,5 +1,5 @@
-import { FC, memo, useCallback, useMemo, useState } from "react"
-import { Button, Classes, H6, Section, SectionCard } from "@blueprintjs/core"
+import { memo, useCallback, useMemo, useState } from "react"
+import { Button, Classes, Section, SectionCard } from "@blueprintjs/core"
 import { useAtomValue, useSetAtom } from "jotai"
 import styled from "styled-components"
 import Flex from "@react-css/flex"
@@ -29,7 +29,7 @@ const SpacedButton = styled(Button)`
 
 SpacedButton.displayName = "SpacedButton"
 
-const ProfileImage: FC = memo(() => {
+const ProfileImage = memo(() => {
   const cloudinary = new Cloudinary({ cloud: { cloudName: "dpmcbdprq" }, url: { secure: true } })
   const [isUploading, setIsUploading] = useState(false)
   const [isFileDropOpen, setIsFileDropOpen] = useState(false)

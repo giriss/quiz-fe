@@ -1,4 +1,4 @@
-import { memo, type FC } from "react"
+import { memo } from "react"
 import { Button, Card, Elevation, FormGroup, H1, InputGroup } from "@blueprintjs/core"
 import Flex from "@react-css/flex"
 import { Controller, useForm } from "react-hook-form"
@@ -6,7 +6,7 @@ import { useSetAtom } from "jotai"
 import { EMAIL_REGEX } from "@/constants"
 import { postLogin } from "@/atoms"
 
-const LoginForm: FC = memo(() => {
+const LoginForm = memo(() => {
   const { control, handleSubmit, formState: { isValid } } = useForm({
     mode: "all",
     defaultValues: {

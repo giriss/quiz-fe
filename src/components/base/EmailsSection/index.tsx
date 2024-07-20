@@ -1,4 +1,4 @@
-import { type FC, memo } from "react"
+import { memo } from "react"
 import { Button, Section, SectionCard, CardList, Card, Tag, ButtonGroup, Tooltip } from "@blueprintjs/core"
 import styled from "styled-components"
 import { EmailResponse } from "@/api"
@@ -10,13 +10,13 @@ const EmailCard = styled(Card)`
 `
 
 interface EmailsSectionProps {
-  emails: EmailResponse[]
-  onEmailAdd: (email: string) => void
-  onEmailDelete: (email: string) => void
-  onEmailPrimary: (email: string) => void
+  readonly emails: EmailResponse[]
+  readonly onEmailAdd: (email: string) => void
+  readonly onEmailDelete: (email: string) => void
+  readonly onEmailPrimary: (email: string) => void
 }
 
-const EmailsSection: FC<EmailsSectionProps> = memo(({ emails, onEmailAdd, onEmailDelete, onEmailPrimary }) => (
+const EmailsSection = memo(({ emails, onEmailAdd, onEmailDelete, onEmailPrimary }: EmailsSectionProps) => (
   <Section title="Emails" rightElement={<AddEmailPopover onAdd={onEmailAdd} />}>
     <SectionCard padded={false}>
       <CardList bordered={false}>
@@ -24,18 +24,12 @@ const EmailsSection: FC<EmailsSectionProps> = memo(({ emails, onEmailAdd, onEmai
           <EmailCard key={address}>
             <div>
               <span>{address}</span>
-              {primary && <>
-                {' '}
-                <Tag minimal intent="primary">Primary</Tag>
-              </>}
-              {!verified && <>
-                {' '}
-                <Tag minimal intent="danger">Unverified</Tag>
-              </>}
+              {!!primary && <>{' '}<Tag minimal intent="primary">Primary</Tag></>}
+              {!verified && <>{' '}<Tag minimal intent="danger">Unverified</Tag></>}
             </div>
             {!primary && (
               <ButtonGroup minimal>
-                {verified && (
+                {!!verified && (
                   <Tooltip content="Make primary" intent="primary" placement="left">
                     <Button icon="endorsed" intent="primary" onClick={() => onEmailPrimary(address)} />
                   </Tooltip>

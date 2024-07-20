@@ -1,8 +1,8 @@
-import { memo, type FC } from 'react'
+import { memo } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { LoginRegister, Dashboard, DashboardHome, DashboardProfile } from '@/pages'
 
-const App: FC = memo(() => (
+const App = memo(() => (
   <Routes>
     <Route path="/" element={<LoginRegister />} />
     <Route path="/dashboard" element={<Dashboard />}>
@@ -11,5 +11,7 @@ const App: FC = memo(() => (
     </Route>
   </Routes>
 ))
+
+App.displayName = "App"
 
 export default App

@@ -1,15 +1,16 @@
-import { ButtonProps, Classes, H5, Popover, PopoverProps } from "@blueprintjs/core"
+/* eslint-disable react/no-unused-prop-types */
+import { ButtonProps, H5, Popover, PopoverProps } from "@blueprintjs/core"
 import Flex from "@react-css/flex"
-import { forwardRef, memo, ReactElement, ReactNode } from "react"
+import { cloneElement, forwardRef, memo, ReactElement, ReactNode, useMemo } from "react"
 import styled from "styled-components"
 import Button from "./Button"
 
 interface AlertPopoverProps extends Omit<PopoverProps, "content"> {
-  title?: ReactNode
-  description?: ReactNode
-  children: ReactNode
-  confirmButton?: ReactElement<Partial<ButtonProps>>
-  onConfirm: VoidFunction
+  readonly title?: ReactNode
+  readonly description?: ReactNode
+  readonly children: ReactNode
+  readonly confirmButton?: ReactElement<Partial<ButtonProps>>
+  readonly onConfirm: VoidFunction
 }
 
 const AlertContainer = styled.aside`
@@ -32,17 +33,26 @@ const AlertPopover = memo(forwardRef<Popover, AlertPopoverProps>(({
   confirmButton,
   onConfirm,
   ...others
-}, ref) => (
+}, ref) => {
+  const boundConfirmButton = useMemo(() => {
+    return confirmButton ? (
+      cloneElement(confirmButton, { onClick: onConfirm })
+    ) : (
+      <Button onClick={onConfirm} />
+    )
+  }, [confirmButton, onConfirm])
+
+  return (
     <Popover
       {...others}
       ref={ref}
       content={
         <AlertContainer>
-          {title && <H5>{title}</H5>}
-          {description && <div>{description}</div>}
+          {!!title && <H5>{title}</H5>}
+          {!!description && <div>{description}</div>}
           <Flex justifyEnd>
             <Button minimal intent="none">Cancel</Button>
-            {confirmButton ?? <Button />}
+            {boundConfirmButton}
           </Flex>
         </AlertContainer>
       }
@@ -50,7 +60,7 @@ const AlertPopover = memo(forwardRef<Popover, AlertPopoverProps>(({
       {children}
     </Popover>
   )
-))
+}))
 
 AlertPopover.displayName = "AlertPopover"
 

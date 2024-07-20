@@ -13,10 +13,12 @@ import {
 export type NewUseFormRegister<TFieldValues extends FieldValues> = <TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(name: TFieldName, options?: RegisterOptions<TFieldValues, TFieldName>) => Omit<UseFormRegisterReturn<TFieldName>, "ref"> & {
   inputRef: RefCallBack
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type NewUseFormReturn<TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined> = Omit<UseFormReturn<TFieldValues, TContext, TTransformedValues>, "register"> & {
   register: NewUseFormRegister<TFieldValues>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useBlueprintForm<TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined>(props?: UseFormProps<TFieldValues, TContext>): NewUseFormReturn<TFieldValues, TContext, TTransformedValues> {
   const fns = useForm<TFieldValues, TContext, TTransformedValues>(props)
   const newRegister: NewUseFormRegister<TFieldValues> = useCallback((name, options) => {

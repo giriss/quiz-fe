@@ -1,10 +1,10 @@
-import { FC, memo, useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 
 interface EllipsisProps {
-  delay?: number
+  readonly delay?: number
 }
 
-const Ellipsis: FC<EllipsisProps> = memo(({ delay = 1_000 }) => {
+const Ellipsis = memo(({ delay = 1_000 }: EllipsisProps) => {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
