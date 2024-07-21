@@ -1,31 +1,25 @@
 import {
-  type ChangeEventHandler,
-  type DragEventHandler,
   memo,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react"
-import { Button, Colors, Dialog, DialogBody, DialogFooter, EntityTitle } from "@blueprintjs/core"
-import styled from "styled-components"
+import { Button, Colors, Dialog, DialogFooter, EntityTitle, DialogBody } from "@blueprintjs/core"
 import { Cross } from "@blueprintjs/icons"
-import clsx from "clsx"
-import { mimeTypeMatchesAccept } from "./utils"
+import styled from "styled-components"
+import { capitalize } from "./utils"
 import DropArea from "./DropArea"
+import FileArea from "./FileArea"
 import Ellipsis from "./Ellipsis"
+import FileListPreview from "./FileListPreview"
 
-const CompactDialogBody = styled(DialogBody)`
-  padding: 0;
-`
-
-interface FileDropProps {
+export interface FileDropProps {
   readonly onSubmit: (fileList: FileList) => void
   readonly subject?: string
-  readonly accept?: string
+  readonly accept?: HTMLInputElement["accept"]
   readonly open?: boolean
-  readonly multiple?: boolean
+  readonly multiple?: HTMLInputElement["multiple"]
   readonly uploading?: boolean
   readonly onClose?: VoidFunction
 }
@@ -39,108 +33,70 @@ const FileDrop = memo(({
   multiple = false,
   uploading = false,
 }: FileDropProps) => {
-  const [dragging, setDragging] = useState(false)
   const [fileList, setFileList] = useState<FileList>()
+  const [errors, setErrors] = useState<string[]>([])
 
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const valid = useMemo(() => !!fileList && errors.length === 0, [errors])
 
-  const errors = useMemo(() => {
-    if (!fileList || fileList.length === 0) {
-      return ''
-    }
-    if (fileList.length > 1 && !multiple) {
-      return 'Only 1 file can be selected'
-    }
-    for (let i = 0; i < fileList.length; i++) {
-      const file = fileList.item(i)
-      if (!mimeTypeMatchesAccept(file?.type ?? "", accept)) {
-        return 'File type not accepted'
-      }
-    }
-  }, [fileList, multiple, accept])
-  const isValid = useMemo(() => errors == null, [errors])
-
-  const handleClick = useCallback(() => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click()
-    }
-  }, [])
-  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(event => {
-    setFileList(event.currentTarget.files ?? undefined)
-  }, [])
-  const handleDrag: DragEventHandler<HTMLElement> = useCallback(event => {
-    event.preventDefault()
-    setDragging(true)
-  }, [])
-  const handleDragLeave: DragEventHandler<HTMLElement> = useCallback(event => {
-    event.preventDefault()
-    setDragging(false)
-  }, [])
-  const handleDrop: DragEventHandler<HTMLElement> = useCallback(event => {
-    event.preventDefault()
-    setDragging(false)
-    if (event.dataTransfer.files.length > 0) {
-      setFileList(event.dataTransfer.files)
-    }
-  }, [])
   const handleSubmit = useCallback(() => {
     if (fileList && fileList.length > 0) {
       onSubmit(fileList)
     }
   }, [onSubmit, fileList])
+  const handleFileList = useCallback((fileList: FileList) => {
+    setFileList(fileList)
+    setErrors([])
+  }, [])
+  const handleErrors = useCallback((errors: string[]) => {
+    setFileList(undefined)
+    setErrors(errors)
+  }, [])
 
   useEffect(() => {
     if (open) {
-      setDragging(false)
       setFileList(undefined)
+      setErrors([])
     }
   }, [open])
 
   return (
     <Dialog isOpen={open} title={`Upload ${subject}`} icon="upload" onClose={uploading ? undefined : onClose}>
       <CompactDialogBody>
-        <DropArea
-          uploading={uploading}
-          onClick={handleClick}
-          onDrop={handleDrop}
-          onDragEnter={handleDrag}
-          onDragOver={handleDrag}
-          onDragLeave={handleDragLeave}
-        >
-          <EntityTitle
-            ellipsize
-            icon={isValid ? (uploading ? "cloud-upload" : "tick") : "document"}
-            className={clsx({
-              "animate__animated animate__fast animate__pulse animate__infinite": dragging,
-            })}
-            title={isValid ? (
-              uploading ? (
-                <>
-                  {`Uploading ${subject}`}
-                  <Ellipsis delay={400} />
-                </>
-              ) : (
-                `You have selected ${
-                  fileList?.length === 1 ? fileList.item(0)?.name : `${fileList?.length} ${subject}`
-                }`
-              )
-            ) : (
-              `Drag and drop ${subject} here or click to select ${subject}`
-            )}
+        {valid ? (
+          uploading ? (
+            <FileArea>
+              <EntityTitle
+                ellipsize
+                icon="cloud-upload"
+                title={(
+                  <>
+                    {`Uploading ${subject}`}
+                    <Ellipsis delay={400} />
+                  </>
+                )}
+              />
+            </FileArea>
+          ) : (
+            <FileListPreview subject={subject} value={fileList!} />
+          )
+        ) : (
+          <DropArea
+            accept={accept}
+            subject={subject}
+            multiple={multiple}
+            onFileList={handleFileList}
+            onErrors={handleErrors}
           />
-
-          <input hidden type="file" multiple={multiple} accept={accept} ref={fileInputRef} onChange={handleChange} />
-        </DropArea>
+        )}
       </CompactDialogBody>
-
       <DialogFooter
         actions={[
           <Button key={0} text="Close" disabled={uploading} onClick={onClose} />,
-          <Button key={1} text="Upload" intent="primary" disabled={!isValid || uploading} onClick={handleSubmit} />,
+          <Button key={1} text="Upload" intent="primary" disabled={!valid || uploading} onClick={handleSubmit} />,
         ]}
       >
-        {!!errors && (
-          <span style={{ color: Colors.RED3 }}><Cross /> {errors}</span>
+        {errors.length > 0 && (
+          <span style={{ color: Colors.RED3 }}><Cross /> {capitalize(errors.join(' & '))}</span>
         )}
       </DialogFooter>
     </Dialog>
@@ -150,3 +106,9 @@ const FileDrop = memo(({
 FileDrop.displayName = "FileDrop"
 
 export default FileDrop
+
+const CompactDialogBody = styled(DialogBody)`
+  padding: 0;
+`
+
+CompactDialogBody.displayName = "CompactDialogBody"

@@ -7,7 +7,7 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import { thumbnail } from '@cloudinary/url-gen/actions/resize';
 import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
 import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
-import { loggedInToken, uploadProfilePicture } from "@/atoms"
+import { loggedInToken, uploadProfilePicture as uploadPP } from "@/atoms"
 import { useAccount } from "@/utils"
 import placeholderAvatar from "@/assets/placeholder-avatar.png"
 import { FileDrop } from "../base"
@@ -33,22 +33,22 @@ const ProfileImage = memo(() => {
   const cloudinary = new Cloudinary({ cloud: { cloudName: "dpmcbdprq" }, url: { secure: true } })
   const [isUploading, setIsUploading] = useState(false)
   const [isFileDropOpen, setIsFileDropOpen] = useState(false)
-  const uploadPP = useSetAtom(uploadProfilePicture)
+  const uploadProfilePicture = useSetAtom(uploadPP)
   const authorization = `Bearer ${useAtomValue(loggedInToken)}`
   const account = useAccount()
   const profilePicture = useMemo(() => {
     if (account?.id && account.pictureId) {
       return cloudinary
         .image(`${account.id}_${account.pictureId}`)
-        .resize(thumbnail(200, 200).gravity(focusOn(face())).zoom(.85))
+        .resize(thumbnail(200, 200).gravity(focusOn(face())).zoom(.8))
         .toURL()
     }
   }, [account?.id, account?.pictureId])
   const uploadPicture = useCallback(async (fileList: FileList) => {
     const file = fileList.item(0)
-    if (fileList.length ===  1 && file) {
+    if (fileList.length === 1 && file) {
       setIsUploading(true)
-      await uploadPP(file)
+      await uploadProfilePicture(file)
       setIsUploading(false)
       setIsFileDropOpen(false)
     }

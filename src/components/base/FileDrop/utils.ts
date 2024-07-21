@@ -24,3 +24,8 @@ export const mimeTypeMatchesAccept = (mimeType: string, acceptValue?: string) =>
 
   return false; // No match found
 }
+
+export const capitalize = (text: string) => {
+  const [first, ...others] = text
+  return `${first.toUpperCase()}${others.join('')}`
+}
