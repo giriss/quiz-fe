@@ -1,17 +1,8 @@
 import { memo, useMemo } from "react"
-import styled from "styled-components"
 import { EntityTitle } from "@blueprintjs/core"
 import { mimeTypeMatchesAccept } from "./utils"
 import FileArea from "./FileArea"
-
-const ImagePreview = styled(FileArea)<{ $url: string }>`
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  ${({ $url }) => `background-image: url(${$url});`}
-`
-
-ImagePreview.displayName = "ImagePreview"
+import PreviewImages from "./PreviewImages"
 
 interface FileListPreviewProps {
   readonly value: FileList
@@ -19,25 +10,29 @@ interface FileListPreviewProps {
 }
 
 const FileListPreview = memo(({ value, subject }: FileListPreviewProps) => {
-  const imageUrl = useMemo(() => {
-    if (value.length === 1 && mimeTypeMatchesAccept(value[0].type, "image/*")) {
-      return URL.createObjectURL(value[0])
+  const fileType = useMemo(() => {
+    const types: string[] = []
+    for (const file of value) {
+      types.push(file.type)
     }
+    if (types.reduce((prev, curr) => prev && mimeTypeMatchesAccept(curr, "image/*"), true)) {
+      return "image"
+    }
+    return "other"
   }, [value])
 
-  if (imageUrl) {
-    return <ImagePreview $url={imageUrl} />
-  }
-
   return (
-    <FileArea>
-      <EntityTitle
-        ellipsize
-        icon="tick"
-        title={`You have selected ${
-          value?.length === 1 ? value.item(0)?.name : `${value?.length} ${subject}`
-        }`}
-      />
+    <FileArea wrap>
+      {fileType === "image" && <PreviewImages items={value} />}
+      {fileType === "other" && (
+        <EntityTitle
+          ellipsize
+          icon="tick"
+          title={`You have selected ${
+            value?.length === 1 ? value.item(0)?.name : `${value?.length} ${subject}`
+          }`}
+        />
+      )}
     </FileArea>
 
   )

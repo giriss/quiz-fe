@@ -1,4 +1,4 @@
-import { ChangeEventHandler, type ComponentPropsWithoutRef, DragEventHandler, memo, useCallback, useRef, useState } from "react"
+import { ChangeEventHandler, DragEventHandler, memo, useCallback, useRef, useState } from "react"
 import styled from "styled-components"
 import { EntityTitle } from "@blueprintjs/core"
 import clsx from "clsx"
@@ -10,7 +10,7 @@ const DropAreaBase = styled(FileArea)`
   cursor: pointer;
 `
 
-interface DropAreaProps extends ComponentPropsWithoutRef<typeof FileArea> {
+interface DropAreaProps {
   readonly subject: FileDropProps["subject"]
   readonly accept: FileDropProps["accept"]
   readonly multiple: FileDropProps["multiple"]
@@ -24,7 +24,6 @@ const DropArea = memo(({
   multiple,
   onFileList,
   onErrors,
-  ...otherProps
 }: DropAreaProps) => {
   const [dragging, setDragging] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -72,7 +71,6 @@ const DropArea = memo(({
       onDragEnter={handleDrag}
       onDragOver={handleDrag}
       onDragLeave={handleDragLeave}
-      {...otherProps}
     >
       <EntityTitle
         ellipsize

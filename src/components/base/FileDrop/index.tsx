@@ -96,7 +96,7 @@ const FileDrop = memo(({
         ]}
       >
         {errors.length > 0 && (
-          <span style={{ color: Colors.RED3 }}><Cross /> {capitalize(errors.join(' & '))}</span>
+          <ErrorMessage><Cross /> {capitalize(errors.join(' & '))}</ErrorMessage>
         )}
       </DialogFooter>
     </Dialog>
@@ -110,5 +110,9 @@ export default FileDrop
 const CompactDialogBody = styled(DialogBody)`
   padding: 0;
 `
-
 CompactDialogBody.displayName = "CompactDialogBody"
+
+const ErrorMessage = styled.span`
+  color: ${Colors.RED3};
+`
+ErrorMessage.displayName = "ErrorMessage"
