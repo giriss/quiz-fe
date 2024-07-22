@@ -1,10 +1,10 @@
-import { memo, useCallback } from "react";
-import { useSetAtom } from "jotai";
-import styled from "styled-components";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAccount } from "@/utils";
-import { UserNavbar } from "@/components/base";
-import { logout } from "@/atoms";
+import { memo, useCallback } from "react"
+import { useSetAtom } from "jotai"
+import styled from "styled-components"
+import { Outlet, useNavigate } from "react-router-dom"
+import { useAccount } from "@/utils"
+import { UserNavbar } from "@/components/base"
+import { logout } from "@/atoms"
 
 const MainContent = styled.main`
   max-width: 75vw;
@@ -21,7 +21,11 @@ const Dashboard = memo(() => {
 
   return !account ? null : (
     <>
-      <UserNavbar name={account.name} onMyProfile={handleMyProfile} onLogout={handleLogout} />
+      <UserNavbar
+        name={account.name}
+        onMyProfile={handleMyProfile}
+        onLogout={handleLogout}
+      />
       <MainContent>
         <Outlet />
       </MainContent>

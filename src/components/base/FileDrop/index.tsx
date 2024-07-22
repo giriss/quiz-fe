@@ -1,11 +1,12 @@
+import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react"
-import { Button, Colors, Dialog, DialogFooter, EntityTitle, DialogBody } from "@blueprintjs/core"
+  Button,
+  Colors,
+  Dialog,
+  DialogFooter,
+  EntityTitle,
+  DialogBody,
+} from "@blueprintjs/core"
 import { Cross } from "@blueprintjs/icons"
 import styled from "styled-components"
 import { capitalize } from "./utils"
@@ -24,84 +25,104 @@ export interface FileDropProps {
   readonly onClose?: VoidFunction
 }
 
-const FileDrop = memo(({
-  onSubmit,
-  onClose,
-  accept,
-  subject = "files",
-  open = false,
-  multiple = false,
-  uploading = false,
-}: FileDropProps) => {
-  const [fileList, setFileList] = useState<FileList>()
-  const [errors, setErrors] = useState<string[]>([])
+const FileDrop = memo(
+  ({
+    onSubmit,
+    onClose,
+    accept,
+    subject = "files",
+    open = false,
+    multiple = false,
+    uploading = false,
+  }: FileDropProps) => {
+    const [fileList, setFileList] = useState<FileList>()
+    const [errors, setErrors] = useState<string[]>([])
 
-  const valid = useMemo(() => !!fileList && errors.length === 0, [errors])
+    const valid = useMemo(() => !!fileList && errors.length === 0, [errors])
 
-  const handleSubmit = useCallback(() => {
-    if (fileList && fileList.length > 0) {
-      onSubmit(fileList)
-    }
-  }, [onSubmit, fileList])
-  const handleFileList = useCallback((fileList: FileList) => {
-    setFileList(fileList)
-    setErrors([])
-  }, [])
-  const handleErrors = useCallback((errors: string[]) => {
-    setFileList(undefined)
-    setErrors(errors)
-  }, [])
-
-  useEffect(() => {
-    if (open) {
-      setFileList(undefined)
+    const handleSubmit = useCallback(() => {
+      if (fileList && fileList.length > 0) {
+        onSubmit(fileList)
+      }
+    }, [onSubmit, fileList])
+    const handleFileList = useCallback((fileList: FileList) => {
+      setFileList(fileList)
       setErrors([])
-    }
-  }, [open])
+    }, [])
+    const handleErrors = useCallback((errors: string[]) => {
+      setFileList(undefined)
+      setErrors(errors)
+    }, [])
 
-  return (
-    <Dialog isOpen={open} title={`Upload ${subject}`} icon="upload" onClose={uploading ? undefined : onClose}>
-      <CompactDialogBody>
-        {valid ? (
-          uploading ? (
-            <FileArea>
-              <EntityTitle
-                ellipsize
-                icon="cloud-upload"
-                title={(
-                  <>
-                    {`Uploading ${subject}`}
-                    <Ellipsis delay={400} />
-                  </>
-                )}
-              />
-            </FileArea>
-          ) : (
-            <FileListPreview subject={subject} value={fileList!} />
-          )
-        ) : (
-          <DropArea
-            accept={accept}
-            subject={subject}
-            multiple={multiple}
-            onFileList={handleFileList}
-            onErrors={handleErrors}
-          />
-        )}
-      </CompactDialogBody>
-      <DialogFooter
-        actions={[
-          <Button key={0} text="Close" disabled={uploading} onClick={onClose} />,
-          <Button key={1} text="Upload" intent="primary" disabled={!valid || uploading} onClick={handleSubmit} />,
-        ]}
+    useEffect(() => {
+      if (open) {
+        setFileList(undefined)
+        setErrors([])
+      }
+    }, [open])
+
+    return (
+      <Dialog
+        isOpen={open}
+        title={`Upload ${subject}`}
+        icon="upload"
+        onClose={uploading ? undefined : onClose}
       >
-        {errors.length > 0 && (
-          <ErrorMessage><Cross /> {capitalize(errors.join(' & '))}</ErrorMessage>
-        )}
-      </DialogFooter>
-    </Dialog>
-  )
-})
+        <CompactDialogBody>
+          {valid ? (
+            uploading ? (
+              <FileArea>
+                <EntityTitle
+                  ellipsize
+                  icon="cloud-upload"
+                  title={
+                    <>
+                      {`Uploading ${subject}`}
+                      <Ellipsis delay={400} />
+                    </>
+                  }
+                />
+              </FileArea>
+            ) : (
+              <FileListPreview subject={subject} value={fileList!} />
+            )
+          ) : (
+            <DropArea
+              accept={accept}
+              subject={subject}
+              multiple={multiple}
+              onFileList={handleFileList}
+              onErrors={handleErrors}
+            />
+          )}
+        </CompactDialogBody>
+        <DialogFooter
+          actions={[
+            <Button
+              key={0}
+              text="Close"
+              disabled={uploading}
+              onClick={onClose}
+            />,
+            <Button
+              key={1}
+              text="Upload"
+              intent="primary"
+              disabled={!valid || uploading}
+              onClick={handleSubmit}
+            />,
+          ]}
+        >
+          {errors.length > 0 && (
+            <ErrorMessage>
+              <Cross /> {capitalize(errors.join(" & "))}
+            </ErrorMessage>
+          )}
+        </DialogFooter>
+      </Dialog>
+    )
+  },
+)
 
 FileDrop.displayName = "FileDrop"
 

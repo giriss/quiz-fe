@@ -1,5 +1,5 @@
-import Flex from "@react-css/flex";
-import styled from "styled-components";
+import Flex from "@react-css/flex"
+import styled from "styled-components"
 
 const FileArea = styled(Flex)`
   height: 50vh;

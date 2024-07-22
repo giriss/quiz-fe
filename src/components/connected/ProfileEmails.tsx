@@ -25,11 +25,15 @@ const ProfileEmails = memo(() => {
       return undefined
     }
     const primaryEmail = emails.find(({ primary }) => primary)!
-    const verifiedEmails = emails.filter(({ primary, verified }) => !primary && verified)
+    const verifiedEmails = emails.filter(
+      ({ primary, verified }) => !primary && verified,
+    )
     return [
       primaryEmail,
       ...verifiedEmails,
-      ...emails.filter(email => [primaryEmail, ...verifiedEmails].indexOf(email) < 0)
+      ...emails.filter(
+        email => [primaryEmail, ...verifiedEmails].indexOf(email) < 0,
+      ),
     ]
   }, [emails])
 

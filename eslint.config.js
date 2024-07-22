@@ -1,13 +1,15 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReactConfigAll from "eslint-plugin-react/configs/all.js";
-import pluginReactConfigJsxRuntime from "eslint-plugin-react/configs/jsx-runtime.js";
+import globals from "globals"
+import pluginJs from "@eslint/js"
+import tseslint from "typescript-eslint"
+import pluginReactConfigAll from "eslint-plugin-react/configs/all.js"
+import pluginReactConfigJsxRuntime from "eslint-plugin-react/configs/jsx-runtime.js"
+import eslintConfigPrettier from "eslint-config-prettier"
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 
 export default [
-  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
+  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
   { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-  {languageOptions: { globals: globals.browser }},
+  { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -25,16 +27,25 @@ export default [
       "react/jsx-props-no-spreading": 0,
       "react/no-multi-comp": 0,
       "react/require-optimization": 0,
-      "react/jsx-indent": [2, 2, {checkAttributes: true, indentLogicalExpressions: true}],
+      "react/jsx-indent": [
+        2,
+        2,
+        { checkAttributes: true, indentLogicalExpressions: true },
+      ],
       "react/jsx-indent-props": [2, 2],
-      "react/jsx-max-props-per-line": [2, { "when": "multiline" }],
-      "react/jsx-sort-props": [2, {
-        noSortAlphabetically: true,
-        callbacksLast: true,
-        shorthandFirst: true,
-        multiline: "last",
-      }],
+      "react/jsx-max-props-per-line": [2, { when: "multiline" }],
+      "react/jsx-sort-props": [
+        2,
+        {
+          noSortAlphabetically: true,
+          callbacksLast: true,
+          shorthandFirst: true,
+          multiline: "last",
+        },
+      ],
     },
   },
   pluginReactConfigJsxRuntime,
-];
+  eslintConfigPrettier,
+  eslintPluginPrettierRecommended,
+]

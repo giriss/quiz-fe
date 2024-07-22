@@ -15,7 +15,7 @@ interface AddPopoverProps {
   readonly onAdd: (email: string) => void
 }
 
-const AddEmailPopover = memo((({ onAdd }: AddPopoverProps) => {
+const AddEmailPopover = memo(({ onAdd }: AddPopoverProps) => {
   const [newEmail, setNewEmail] = useState("")
   const newEmailValid = useMemo(() => EMAIL_REGEX.test(newEmail), [newEmail])
   const newEmailRef = useRef<HTMLInputElement>(null)
@@ -33,15 +33,21 @@ const AddEmailPopover = memo((({ onAdd }: AddPopoverProps) => {
     setNewEmail("")
   }, [])
 
-  const handleNewEmail: ChangeEventHandler<HTMLInputElement> = useCallback(event => {
-    setNewEmail(event.currentTarget.value)
-  }, [])
+  const handleNewEmail: ChangeEventHandler<HTMLInputElement> = useCallback(
+    event => {
+      setNewEmail(event.currentTarget.value)
+    },
+    [],
+  )
 
-  const handleEnterKey: KeyboardEventHandler<HTMLInputElement> = useCallback(({ code }) => {
-    if (code === "Enter" && newEmailValid) {
-      handleAddEmail()
-    }
-  }, [handleAddEmail, newEmailValid])
+  const handleEnterKey: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    ({ code }) => {
+      if (code === "Enter" && newEmailValid) {
+        handleAddEmail()
+      }
+    },
+    [handleAddEmail, newEmailValid],
+  )
 
   return (
     <AlertPopover
@@ -66,7 +72,7 @@ const AddEmailPopover = memo((({ onAdd }: AddPopoverProps) => {
       <Button minimal icon="add" intent="primary" text="Add" />
     </AlertPopover>
   )
-}))
+})
 
 AddEmailPopover.displayName = "AddEmailPopover"
 

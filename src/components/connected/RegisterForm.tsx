@@ -1,5 +1,12 @@
 import { memo } from "react"
-import { Button, Card, Elevation, FormGroup, H1, InputGroup } from "@blueprintjs/core"
+import {
+  Button,
+  Card,
+  Elevation,
+  FormGroup,
+  H1,
+  InputGroup,
+} from "@blueprintjs/core"
 import Flex from "@react-css/flex"
 import { Controller, useForm } from "react-hook-form"
 import { useSetAtom } from "jotai"
@@ -7,7 +14,11 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from "@/constants"
 import { postRegister } from "@/atoms"
 
 const RegisterForm = memo(() => {
-  const { control, handleSubmit, formState: { isValid } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
     mode: "all",
     defaultValues: {
       name: "",
@@ -78,7 +89,8 @@ const RegisterForm = memo(() => {
             required: "Password can't be blank",
             pattern: {
               value: PASSWORD_REGEX,
-              message: "Password must contain at least an uppercase, a lowercase, a number and a special character",
+              message:
+                "Password must contain at least an uppercase, a lowercase, a number and a special character",
             },
             minLength: {
               value: 8,
@@ -107,9 +119,8 @@ const RegisterForm = memo(() => {
           control={control}
           name="confirmPassword"
           rules={{
-            validate: (value, { password }) => (
-              value === password ? undefined : "Passwords doesn't match"
-            )
+            validate: (value, { password }) =>
+              value === password ? undefined : "Passwords doesn't match",
           }}
           render={({ field: { ref, ...props }, fieldState: { error } }) => (
             <FormGroup
@@ -130,7 +141,9 @@ const RegisterForm = memo(() => {
           )}
         />
         <Flex justifyEnd>
-          <Button intent="primary" type="submit" disabled={!isValid}>Register</Button>
+          <Button intent="primary" type="submit" disabled={!isValid}>
+            Register
+          </Button>
         </Flex>
       </form>
     </Card>

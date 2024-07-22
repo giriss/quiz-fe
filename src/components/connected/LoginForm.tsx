@@ -1,5 +1,12 @@
 import { memo } from "react"
-import { Button, Card, Elevation, FormGroup, H1, InputGroup } from "@blueprintjs/core"
+import {
+  Button,
+  Card,
+  Elevation,
+  FormGroup,
+  H1,
+  InputGroup,
+} from "@blueprintjs/core"
 import Flex from "@react-css/flex"
 import { Controller, useForm } from "react-hook-form"
 import { useSetAtom } from "jotai"
@@ -7,7 +14,11 @@ import { EMAIL_REGEX } from "@/constants"
 import { postLogin } from "@/atoms"
 
 const LoginForm = memo(() => {
-  const { control, handleSubmit, formState: { isValid } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
     mode: "all",
     defaultValues: {
       email: "",
@@ -31,7 +42,10 @@ const LoginForm = memo(() => {
               message: "Email address is invalid",
             },
           }}
-          render={({ field: { ref, ...otherProps }, fieldState: { error } }) => (
+          render={({
+            field: { ref, ...otherProps },
+            fieldState: { error },
+          }) => (
             <FormGroup
               label="Email"
               labelFor="login-email-field"
@@ -53,7 +67,10 @@ const LoginForm = memo(() => {
           control={control}
           name="password"
           rules={{ required: "Password can't be empty" }}
-          render={({ field: { ref, ...otherProps }, fieldState: { error } }) => (
+          render={({
+            field: { ref, ...otherProps },
+            fieldState: { error },
+          }) => (
             <FormGroup
               label="Password"
               labelFor="login-password-field"
@@ -73,7 +90,9 @@ const LoginForm = memo(() => {
           )}
         />
         <Flex justifyEnd>
-          <Button intent="primary" type="submit" disabled={!isValid}>Login</Button>
+          <Button intent="primary" type="submit" disabled={!isValid}>
+            Login
+          </Button>
         </Flex>
       </form>
     </Card>

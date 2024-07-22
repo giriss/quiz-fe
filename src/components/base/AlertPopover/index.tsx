@@ -1,7 +1,14 @@
 /* eslint-disable react/no-unused-prop-types */
 import { ButtonProps, H5, Popover, PopoverProps } from "@blueprintjs/core"
 import Flex from "@react-css/flex"
-import { cloneElement, forwardRef, memo, ReactElement, ReactNode, useMemo } from "react"
+import {
+  cloneElement,
+  forwardRef,
+  memo,
+  ReactElement,
+  ReactNode,
+  useMemo,
+} from "react"
 import styled from "styled-components"
 import Button from "./Button"
 
@@ -26,41 +33,43 @@ const AlertContainer = styled.aside`
   }
 `
 
-const AlertPopover = memo(forwardRef<Popover, AlertPopoverProps>(({
-  title,
-  description,
-  children,
-  confirmButton,
-  onConfirm,
-  ...others
-}, ref) => {
-  const boundConfirmButton = useMemo(() => {
-    return confirmButton ? (
-      cloneElement(confirmButton, { onClick: onConfirm })
-    ) : (
-      <Button onClick={onConfirm} />
-    )
-  }, [confirmButton, onConfirm])
+const AlertPopover = memo(
+  forwardRef<Popover, AlertPopoverProps>(
+    (
+      { title, description, children, confirmButton, onConfirm, ...others },
+      ref,
+    ) => {
+      const boundConfirmButton = useMemo(() => {
+        return confirmButton ? (
+          cloneElement(confirmButton, { onClick: onConfirm })
+        ) : (
+          <Button onClick={onConfirm} />
+        )
+      }, [confirmButton, onConfirm])
 
-  return (
-    <Popover
-      {...others}
-      ref={ref}
-      content={
-        <AlertContainer>
-          {!!title && <H5>{title}</H5>}
-          {!!description && <div>{description}</div>}
-          <Flex justifyEnd>
-            <Button minimal intent="none">Cancel</Button>
-            {boundConfirmButton}
-          </Flex>
-        </AlertContainer>
-      }
-    >
-      {children}
-    </Popover>
-  )
-}))
+      return (
+        <Popover
+          {...others}
+          ref={ref}
+          content={
+            <AlertContainer>
+              {!!title && <H5>{title}</H5>}
+              {!!description && <div>{description}</div>}
+              <Flex justifyEnd>
+                <Button minimal intent="none">
+                  Cancel
+                </Button>
+                {boundConfirmButton}
+              </Flex>
+            </AlertContainer>
+          }
+        >
+          {children}
+        </Popover>
+      )
+    },
+  ),
+)
 
 AlertPopover.displayName = "AlertPopover"
 

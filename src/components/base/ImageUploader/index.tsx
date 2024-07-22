@@ -1,5 +1,11 @@
 import { Button, Callout, FileInput } from "@blueprintjs/core"
-import { type FormEventHandler, memo, useCallback, useMemo, useState } from "react"
+import {
+  type FormEventHandler,
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+} from "react"
 import styled from "styled-components"
 
 const SpacedFileInput = styled(FileInput)`
@@ -13,11 +19,17 @@ interface ImageUploaderProps {
 
 const ImageUploader = memo(({ disabled, onUpload }: ImageUploaderProps) => {
   const [selectedFile, setSelectedFile] = useState<File>()
-  const hasSelection = useMemo(() => Boolean(selectedFile), [Boolean(selectedFile)])
+  const hasSelection = useMemo(
+    () => Boolean(selectedFile),
+    [Boolean(selectedFile)],
+  )
 
-  const handleImageSelect: FormEventHandler<HTMLInputElement> = useCallback(event => {
-    setSelectedFile(event.currentTarget.files?.item(0) ?? undefined)
-  }, [])
+  const handleImageSelect: FormEventHandler<HTMLInputElement> = useCallback(
+    event => {
+      setSelectedFile(event.currentTarget.files?.item(0) ?? undefined)
+    },
+    [],
+  )
   const handleUpload = useCallback(() => {
     onUpload(selectedFile!)
   }, [onUpload, selectedFile])

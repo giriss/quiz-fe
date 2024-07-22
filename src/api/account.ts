@@ -27,52 +27,119 @@ export interface EmailResponse extends EmailCreate {
   createdAt: Date
 }
 
-export const login = async (params: UserLogin): Promise<[UserResponse, string | undefined]> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/login`, withJsonBody(params))
-  const { created_at: createdAt, picture_id: pictureId, ...others } = await response.json()
-  return returnWithToken({ createdAt: new Date(createdAt), pictureId, ...others }, response.headers.get("x-token") ?? undefined)
-}
-
-export const register = async (params: UserRegister) => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/register`, withJsonBody(params))
-  const { created_at: createdAt, picture_id: pictureId, ...others } = await response.json()
-  return returnWithToken({ createdAt: new Date(createdAt), pictureId, ...others }, response.headers.get("x-token") ?? undefined)
-}
-
-export const me = async (token: string): Promise<[UserResponse, string]> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/me`, withoutBody(token))
-  const { created_at: createdAt, picture_id: pictureId, ...others } = await response.json()
-  return returnWithToken({ createdAt: new Date(createdAt), pictureId, ...others }, response.headers.get("x-token")!)
-}
-
-export const fetchEmails = async (token: string): Promise<[EmailResponse[], string]> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/emails`, withoutBody(token))
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const emailsList: any[] = await response.json()
+export const login = async (
+  params: UserLogin,
+): Promise<[UserResponse, string | undefined]> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/login`,
+    withJsonBody(params),
+  )
+  const {
+    created_at: createdAt,
+    picture_id: pictureId,
+    ...others
+  } = await response.json()
   return returnWithToken(
-    emailsList.map(({ created_at: createdAt, ...others }) => ({ createdAt, ...others })),
-    response.headers.get("x-token")!
+    { createdAt: new Date(createdAt), pictureId, ...others },
+    response.headers.get("x-token") ?? undefined,
   )
 }
 
-export const postEmail = async (params: EmailCreate, token: string): Promise<[EmailResponse, string]> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/emails`, withJsonBody(params, token))
+export const register = async (params: UserRegister) => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/register`,
+    withJsonBody(params),
+  )
+  const {
+    created_at: createdAt,
+    picture_id: pictureId,
+    ...others
+  } = await response.json()
+  return returnWithToken(
+    { createdAt: new Date(createdAt), pictureId, ...others },
+    response.headers.get("x-token") ?? undefined,
+  )
+}
+
+export const me = async (token: string): Promise<[UserResponse, string]> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/me`,
+    withoutBody(token),
+  )
+  const {
+    created_at: createdAt,
+    picture_id: pictureId,
+    ...others
+  } = await response.json()
+  return returnWithToken(
+    { createdAt: new Date(createdAt), pictureId, ...others },
+    response.headers.get("x-token")!,
+  )
+}
+
+export const fetchEmails = async (
+  token: string,
+): Promise<[EmailResponse[], string]> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/emails`,
+    withoutBody(token),
+  )
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const emailsList: any[] = await response.json()
+  return returnWithToken(
+    emailsList.map(({ created_at: createdAt, ...others }) => ({
+      createdAt,
+      ...others,
+    })),
+    response.headers.get("x-token")!,
+  )
+}
+
+export const postEmail = async (
+  params: EmailCreate,
+  token: string,
+): Promise<[EmailResponse, string]> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/emails`,
+    withJsonBody(params, token),
+  )
   const { created_at: createdAt, ...others } = await response.json()
-  return returnWithToken({ createdAt, ...others }, response.headers.get("x-token")!)
+  return returnWithToken(
+    { createdAt, ...others },
+    response.headers.get("x-token")!,
+  )
 }
 
-export const deleteEmail = async (address: string, token: string): Promise<string> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/emails/${encodeURIComponent(address)}`, withoutBody(token, "DELETE"))
+export const deleteEmail = async (
+  address: string,
+  token: string,
+): Promise<string> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/emails/${encodeURIComponent(address)}`,
+    withoutBody(token, "DELETE"),
+  )
   return response.headers.get("x-token")!
 }
 
-export const patchPrimaryEmail = async (address: string, token: string): Promise<string> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/emails/${encodeURIComponent(address)}/primary`, withoutBody(token, "PATCH"))
+export const patchPrimaryEmail = async (
+  address: string,
+  token: string,
+): Promise<string> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/emails/${encodeURIComponent(address)}/primary`,
+    withoutBody(token, "PATCH"),
+  )
   return response.headers.get("x-token")!
 }
 
-export const postProfilePicture = async (file: File, token: string): Promise<[{ pictureId: string, accountId: string }, string] | undefined> => {
-  const response = await fetch(`${REST_ENDPOINT}accounts/picture`, withoutBody(token))
+export const postProfilePicture = async (
+  file: File,
+  token: string,
+): Promise<[{ pictureId: string; accountId: string }, string] | undefined> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/picture`,
+    withoutBody(token),
+  )
   if (response.status === 200) {
     const newToken = response.headers.get("x-token")!
     const {
@@ -80,7 +147,7 @@ export const postProfilePicture = async (file: File, token: string): Promise<[{ 
       timestamp,
       api_key: apiKey,
       public_id: publicId,
-      cloud_name: cloudName
+      cloud_name: cloudName,
     } = await response.json()
     const formData = new FormData()
     formData.append("file", file)
@@ -90,7 +157,7 @@ export const postProfilePicture = async (file: File, token: string): Promise<[{ 
     formData.append("api_key", apiKey)
     const cloudinaryResponse = await fetch(
       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-      { method: "POST", body: formData }
+      { method: "POST", body: formData },
     )
     if (cloudinaryResponse.status === 200) {
       const body = await cloudinaryResponse.json()

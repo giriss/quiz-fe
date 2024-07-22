@@ -1,4 +1,10 @@
-import { AnchorButton, Menu, MenuItem, Navbar, Popover } from "@blueprintjs/core"
+import {
+  AnchorButton,
+  Menu,
+  MenuItem,
+  Navbar,
+  Popover,
+} from "@blueprintjs/core"
 import { memo } from "react"
 
 export interface UserNavbarProps {
@@ -19,12 +25,18 @@ const UserNavbar = memo(({ name, onMyProfile, onLogout }: UserNavbarProps) => (
         placement="bottom-end"
         content={
           <Menu>
-            <MenuItem icon="id-number" text="My Profile" onClick={onMyProfile} />
+            <MenuItem
+              icon="id-number"
+              text="My Profile"
+              onClick={onMyProfile}
+            />
             <MenuItem icon="log-out" text="Log Out" onClick={onLogout} />
           </Menu>
         }
       >
-        <AnchorButton minimal icon="user">{name}</AnchorButton>
+        <AnchorButton minimal icon="user">
+          {name}
+        </AnchorButton>
       </Popover>
     </Navbar.Group>
   </Navbar>

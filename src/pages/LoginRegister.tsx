@@ -1,9 +1,9 @@
-import { memo } from "react";
-import { Divider } from "@blueprintjs/core";
-import Flex from "@react-css/flex";
-import { LoginForm, RegisterForm } from "@/components/connected";
-import { useAuth } from "@/utils";
-import styled from "styled-components";
+import { memo } from "react"
+import { Divider } from "@blueprintjs/core"
+import Flex from "@react-css/flex"
+import { LoginForm, RegisterForm } from "@/components/connected"
+import { useAuth } from "@/utils"
+import styled from "styled-components"
 
 const FullHeightFlex = styled(Flex)`
   min-height: 100vh;

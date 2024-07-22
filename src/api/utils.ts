@@ -1,6 +1,10 @@
 export type HTTPMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
-export const withJsonBody = <T extends object>(json?: T, token?: string, method: HTTPMethod = "POST"): RequestInit => ({
+export const withJsonBody = <T extends object>(
+  json?: T,
+  token?: string,
+  method: HTTPMethod = "POST",
+): RequestInit => ({
   method,
   body: JSON.stringify(json),
   headers: {
@@ -10,8 +14,12 @@ export const withJsonBody = <T extends object>(json?: T, token?: string, method:
   credentials: "include",
 })
 
-export const withoutBody = (token?: string, method: HTTPMethod = "GET"): RequestInit => withJsonBody(undefined, token, method)
+export const withoutBody = (
+  token?: string,
+  method: HTTPMethod = "GET",
+): RequestInit => withJsonBody(undefined, token, method)
 
 export const returnWithToken = <T, S>(returnVal: T, token: S): [T, S] => [
-  returnVal, token
+  returnVal,
+  token,
 ]

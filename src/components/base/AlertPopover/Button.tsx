@@ -1,12 +1,16 @@
-import { ButtonProps, Button as BlueprintButton, Classes } from "@blueprintjs/core";
-import clsx from "clsx";
-import { memo, useMemo } from "react";
+import {
+  ButtonProps,
+  Button as BlueprintButton,
+  Classes,
+} from "@blueprintjs/core"
+import clsx from "clsx"
+import { memo, useMemo } from "react"
 
 const Button = memo(
   ({ className, intent, text, children, ...otherProps }: ButtonProps) => {
     const hasNoChild = useMemo(
       () => text === undefined && children === undefined,
-      [text === undefined && children === undefined]
+      [text === undefined && children === undefined],
     )
 
     return (
@@ -19,7 +23,7 @@ const Button = memo(
         children={hasNoChild ? undefined : children}
       />
     )
-  }
+  },
 )
 
 Button.displayName = "AlertPopoverButton"

@@ -17,7 +17,7 @@ const Ellipsis = memo(({ delay = 1_000 }: EllipsisProps) => {
     }
   }, [count, delay])
 
-  return <>.{'.'.repeat(count)}</>
+  return <>.{".".repeat(count)}</>
 })
 
 Ellipsis.displayName = "Ellipsis"

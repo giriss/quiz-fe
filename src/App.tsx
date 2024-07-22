@@ -1,6 +1,11 @@
-import { memo } from 'react'
-import { Route, Routes } from 'react-router-dom'
-import { LoginRegister, Dashboard, DashboardHome, DashboardProfile } from '@/pages'
+import { memo } from "react"
+import { Route, Routes } from "react-router-dom"
+import {
+  LoginRegister,
+  Dashboard,
+  DashboardHome,
+  DashboardProfile,
+} from "@/pages"
 
 const App = memo(() => (
   <Routes>

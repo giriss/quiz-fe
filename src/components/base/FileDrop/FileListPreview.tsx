@@ -15,7 +15,12 @@ const FileListPreview = memo(({ value, subject }: FileListPreviewProps) => {
     for (const file of value) {
       types.push(file.type)
     }
-    if (types.reduce((prev, curr) => prev && mimeTypeMatchesAccept(curr, "image/*"), true)) {
+    if (
+      types.reduce(
+        (prev, curr) => prev && mimeTypeMatchesAccept(curr, "image/*"),
+        true,
+      )
+    ) {
       return "image"
     }
     return "other"
@@ -29,12 +34,13 @@ const FileListPreview = memo(({ value, subject }: FileListPreviewProps) => {
           ellipsize
           icon="tick"
           title={`You have selected ${
-            value?.length === 1 ? value.item(0)?.name : `${value?.length} ${subject}`
+            value?.length === 1
+              ? value.item(0)?.name
+              : `${value?.length} ${subject}`
           }`}
         />
       )}
     </FileArea>
-
   )
 })
 
