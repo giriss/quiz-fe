@@ -7,6 +7,7 @@ import { Cloudinary } from "@cloudinary/url-gen"
 import { thumbnail } from "@cloudinary/url-gen/actions/resize"
 import { focusOn } from "@cloudinary/url-gen/qualifiers/gravity"
 import { face } from "@cloudinary/url-gen/qualifiers/focusOn"
+import clsx from "clsx"
 import { loggedInToken, uploadProfilePicture as uploadPP } from "@/atoms"
 import { useAccount } from "@/utils"
 import placeholderAvatar from "@/assets/placeholder-avatar.png"
@@ -39,6 +40,7 @@ const ProfileImage = memo(() => {
   const uploadProfilePicture = useSetAtom(uploadPP)
   const authorization = `Bearer ${useAtomValue(loggedInToken)}`
   const account = useAccount()
+  const loading = useMemo(() => account == null, [account == null])
   const profilePicture = useMemo(() => {
     if (account?.id && account.pictureId) {
       return cloudinary
@@ -66,9 +68,19 @@ const ProfileImage = memo(() => {
   return (
     <>
       <Section
-        title="Profile picture"
+        title={
+          <span className={clsx({ [Classes.SKELETON]: loading })}>
+            Profile picture
+          </span>
+        }
         rightElement={
-          <Button minimal icon="upload" intent="primary" onClick={openFileDrop}>
+          <Button
+            minimal
+            className={clsx({ [Classes.SKELETON]: loading })}
+            icon="upload"
+            intent="primary"
+            onClick={openFileDrop}
+          >
             {profilePicture ? "Change" : "Add"} profile picture
           </Button>
         }
@@ -76,8 +88,10 @@ const ProfileImage = memo(() => {
         <SectionCard>
           <Flex column alignItemsCenter>
             <Avatar
-              className={Classes.ELEVATION_2}
               $src={profilePicture ?? placeholderAvatar}
+              className={clsx(Classes.ELEVATION_2, {
+                [Classes.SKELETON]: loading,
+              })}
             />
           </Flex>
         </SectionCard>

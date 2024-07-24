@@ -35,7 +35,7 @@ const ProfileEmails = memo(() => {
     ]
   }, [emails])
 
-  return !orderedEmails ? null : (
+  return (
     <EmailsSection
       emails={orderedEmails}
       onEmailAdd={handleEmailAdd}

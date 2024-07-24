@@ -12,10 +12,11 @@ import { EMAIL_REGEX } from "@/constants"
 import { AlertPopover, AlertPopoverButton } from "@/components/base"
 
 interface AddPopoverProps {
+  readonly className?: string
   readonly onAdd: (email: string) => void
 }
 
-const AddEmailPopover = memo(({ onAdd }: AddPopoverProps) => {
+const AddEmailPopover = memo(({ className, onAdd }: AddPopoverProps) => {
   const [newEmail, setNewEmail] = useState("")
   const newEmailValid = useMemo(() => EMAIL_REGEX.test(newEmail), [newEmail])
   const newEmailRef = useRef<HTMLInputElement>(null)
@@ -52,6 +53,7 @@ const AddEmailPopover = memo(({ onAdd }: AddPopoverProps) => {
   return (
     <AlertPopover
       ref={popoverRef}
+      className={className}
       title="Add email address"
       confirmButton={
         <AlertPopoverButton text="Add" disabled={!newEmailValid} />

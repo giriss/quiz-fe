@@ -1,11 +1,16 @@
 import { memo } from "react"
-import { H1 } from "@blueprintjs/core"
+import { Classes, H1 } from "@blueprintjs/core"
+import clsx from "clsx"
 import { useAccount } from "@/utils"
 
 const Home = memo(() => {
   const account = useAccount()
 
-  return !account ? null : <H1>Hello {account.name}</H1>
+  return (
+    <H1 className={clsx({ [Classes.SKELETON]: account == null })}>
+      Hello {account?.name ?? "Fake Name"}
+    </H1>
+  )
 })
 
 Home.displayName = "DashboardHome"

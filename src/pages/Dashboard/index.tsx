@@ -19,10 +19,11 @@ const Dashboard = memo(() => {
     navigate("/dashboard/profile")
   }, [navigate])
 
-  return !account ? null : (
+  return (
     <>
       <UserNavbar
-        name={account.name}
+        name={account?.name ?? "Loading Name"}
+        loading={account == null}
         onMyProfile={handleMyProfile}
         onLogout={handleLogout}
       />
