@@ -27,8 +27,3 @@ export const mimeTypeMatchesAccept = (
 
   return false // No match found
 }
-
-export const capitalize = (text: string) => {
-  const [first, ...others] = text
-  return `${first.toUpperCase()}${others.join("")}`
-}

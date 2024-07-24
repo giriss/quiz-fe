@@ -15,10 +15,8 @@ const ProfileEmails = memo(() => {
   }, [])
 
   useEffect(() => {
-    if (!emails) {
-      fetchEmails()
-    }
-  }, [emails])
+    fetchEmails()
+  }, [])
 
   const orderedEmails = useMemo(() => {
     if (!emails) {

@@ -9,7 +9,7 @@ import {
 } from "@blueprintjs/core"
 import { Cross } from "@blueprintjs/icons"
 import styled from "styled-components"
-import { capitalize } from "./utils"
+import { capitalize } from "@/utils/string"
 import DropArea from "./DropArea"
 import FileArea from "./FileArea"
 import Ellipsis from "./Ellipsis"
