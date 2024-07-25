@@ -23,10 +23,8 @@ export const useAccount = () => {
   const [account, getAccount] = useAtom(getLoggedInAccount)
 
   useEffect(() => {
-    if (!account) {
-      getAccount()
-    }
-  }, [account])
+    getAccount()
+  }, [])
 
   return account
 }

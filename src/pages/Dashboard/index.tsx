@@ -1,36 +1,23 @@
-import { memo, useCallback } from "react"
-import { useSetAtom } from "jotai"
+import { memo } from "react"
 import styled from "styled-components"
-import { Outlet, useNavigate } from "react-router-dom"
-import { useAccount } from "@/utils"
-import { UserNavbar } from "@/components/base"
-import { logout } from "@/atoms"
+import { Outlet } from "react-router-dom"
+import Flex from "@react-css/flex"
+import UserMenu from "@/components/connected/UserMenu"
 
 const MainContent = styled.main`
+  flex: 1;
   max-width: 75vw;
   margin: 15px auto 0 auto;
 `
 
 const Dashboard = memo(() => {
-  const account = useAccount()
-  const handleLogout = useSetAtom(logout)
-  const navigate = useNavigate()
-  const handleMyProfile = useCallback(() => {
-    navigate("/dashboard/profile")
-  }, [navigate])
-
   return (
-    <>
-      <UserNavbar
-        name={account?.name ?? "Loading Name"}
-        loading={account == null}
-        onMyProfile={handleMyProfile}
-        onLogout={handleLogout}
-      />
+    <Flex>
+      <UserMenu />
       <MainContent>
         <Outlet />
       </MainContent>
-    </>
+    </Flex>
   )
 })
 

@@ -68,6 +68,7 @@ const ProfileImage = memo(() => {
   return (
     <>
       <Section
+        className={Classes.ELEVATION_1}
         title={
           <span className={clsx({ [Classes.SKELETON]: loading })}>
             Profile picture

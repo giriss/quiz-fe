@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react"
+import { ComponentPropsWithoutRef, memo, useMemo } from "react"
 import {
   Button,
   Section,
@@ -21,7 +21,7 @@ const EmailCard = styled(Card)`
   justify-content: space-between;
 `
 
-interface EmailsSectionProps {
+interface EmailsSectionProps extends ComponentPropsWithoutRef<typeof Section> {
   readonly emails?: EmailResponse[]
   readonly onEmailAdd: (email: string) => void
   readonly onEmailDelete: (email: string) => void
@@ -34,6 +34,7 @@ const EmailsSection = memo(
     onEmailAdd,
     onEmailDelete,
     onEmailPrimary,
+    ...sectionProps
   }: EmailsSectionProps) => {
     const loading = useMemo(() => emails == null, [emails])
     const emailsWithPlaceholder = useMemo<EmailResponse[]>(
@@ -53,6 +54,7 @@ const EmailsSection = memo(
 
     return (
       <Section
+        {...sectionProps}
         rightElement={
           <AddEmailPopover
             className={clsx({ [Classes.SKELETON]: loading })}

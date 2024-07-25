@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useMemo } from "react"
 import { useAtom, useSetAtom } from "jotai"
 import { createEmail, getEmails, makePrimaryEmail, removeEmail } from "@/atoms"
 import { EmailsSection } from "../base"
+import { Classes } from "@blueprintjs/core"
 
 const ProfileEmails = memo(() => {
   const [emails, fetchEmails] = useAtom(getEmails)
@@ -37,6 +38,7 @@ const ProfileEmails = memo(() => {
 
   return (
     <EmailsSection
+      className={Classes.ELEVATION_1}
       emails={orderedEmails}
       onEmailAdd={handleEmailAdd}
       onEmailDelete={handleEmailDelete}
