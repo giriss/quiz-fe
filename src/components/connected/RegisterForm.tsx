@@ -12,6 +12,7 @@ import { Controller, useForm } from "react-hook-form"
 import { useSetAtom } from "jotai"
 import { EMAIL_REGEX, PASSWORD_REGEX } from "@/constants"
 import { postRegister } from "@/atoms"
+import PasswordInputGroup from "../base/PasswordInputGroup"
 
 const RegisterForm = memo(() => {
   const {
@@ -104,11 +105,10 @@ const RegisterForm = memo(() => {
               intent={error ? "danger" : undefined}
               helperText={error ? error.message : undefined}
             >
-              <InputGroup
+              <PasswordInputGroup
                 {...props}
                 id="register-password-field"
                 placeholder="**********"
-                type="password"
                 inputRef={ref}
                 intent={error ? "danger" : undefined}
               />
