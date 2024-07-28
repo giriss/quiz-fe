@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from "jotai"
 import { useNavigate } from "react-router-dom"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { thumbnail } from "@cloudinary/url-gen/actions/resize"
 import { Cloudinary } from "@cloudinary/url-gen"
 import { face } from "@cloudinary/url-gen/qualifiers/focusOn"
@@ -32,6 +32,19 @@ export const useAccount = () => {
   }, [])
 
   return account
+}
+
+export const useDebounce = <T>(initial: T, delay: number) => {
+  const [value, setValue] = useState(initial)
+  const [delayedValue, setDelayedValue] = useState(initial)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDelayedValue(value), delay)
+
+    return () => clearTimeout(timeout)
+  }, [value, delay])
+
+  return [value, delayedValue, setValue] as const
 }
 
 interface ProfilePicture {

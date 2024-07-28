@@ -1,4 +1,3 @@
-import { accountSearchTerm, searchAccounts } from "@/atoms"
 import {
   Button,
   Classes,
@@ -18,9 +17,10 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
 } from "react"
 import styled from "styled-components"
+import { useDebounce } from "@/utils"
+import { accountSearchTerm, searchAccounts } from "@/atoms"
 import AccountTile from "./AccountTile"
 
 type SearchDrawerProps = Omit<
@@ -34,7 +34,7 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
     searchInputRef.current?.focus()
   }, [])
 
-  const [criteria, setCriteria] = useState("")
+  const [criteria, delayedCriteria, setCriteria] = useDebounce("", 1_000)
   const setSearchTerm = useSetAtom(accountSearchTerm)
   const handleSearch = useCallback<ChangeEventHandler<HTMLInputElement>>(
     event => setCriteria(event.target.value),
@@ -55,10 +55,8 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
   }, [isOpen, clearSearchTerm])
 
   useEffect(() => {
-    const timeout = setTimeout(() => setSearchTerm(criteria), 1000)
-
-    return () => clearTimeout(timeout)
-  }, [criteria])
+    setSearchTerm(delayedCriteria)
+  }, [delayedCriteria])
 
   return (
     <Drawer
