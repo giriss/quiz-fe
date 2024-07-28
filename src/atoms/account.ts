@@ -1,4 +1,5 @@
 import { atom } from "jotai"
+import { loadable } from "jotai/utils"
 import {
   UserLogin,
   UserRegister,
@@ -7,6 +8,7 @@ import {
   me,
   register,
   postProfilePicture,
+  getSearch,
 } from "@/api"
 
 export const loggedInToken = atom<string | undefined>(undefined)
@@ -64,6 +66,24 @@ export const getLoggedInAccount = atom(
     set(savedLoggedInToken, newToken)
     set(loggedInAccount, account)
   },
+)
+
+export const accountSearchTerm = atom("")
+
+export const searchAccounts = loadable(
+  atom(async (get, { signal }) => {
+    const searchTerm = get(accountSearchTerm)
+
+    if (searchTerm.length < 3) {
+      return undefined
+    }
+
+    const token = get(savedLoggedInToken)!
+
+    return await getSearch(searchTerm, token, signal).then(
+      ([accounts]) => accounts,
+    )
+  }),
 )
 
 export const uploadProfilePicture = atom(null, async (get, set, file: File) => {

@@ -16,10 +16,13 @@ export interface UserRegister extends UserLogin {
   name: string
 }
 
-export interface UserResponse {
+export interface UserSearchItem {
   id: string
   name: string
   pictureId?: string
+}
+
+export interface UserResponse extends UserSearchItem {
   createdAt: DateTime
 }
 
@@ -57,6 +60,22 @@ export const me = async (token: string): Promise<[UserResponse, string]> => {
 
   return returnWithToken(
     processResponse(await response.json()),
+    response.headers.get("x-token")!,
+  )
+}
+
+export const getSearch = async (
+  query: string,
+  token: string,
+  signal?: AbortSignal,
+): Promise<[UserSearchItem[], string]> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/search/${encodeURIComponent(query)}`,
+    { ...withoutBody(token), signal },
+  )
+
+  return returnWithToken(
+    await response.json().then((data: never[]) => data.map(processResponse)),
     response.headers.get("x-token")!,
   )
 }

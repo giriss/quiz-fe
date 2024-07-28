@@ -1,10 +1,11 @@
 import { Classes, Menu, MenuItem } from "@blueprintjs/core"
 import { useSetAtom } from "jotai"
-import { memo, useCallback } from "react"
+import { memo, useCallback, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import styled from "styled-components"
 import { logout } from "@/atoms"
 import UserAvatar from "./UserAvatar"
+import SearchDrawer from "./SearchDrawer"
 
 const UserMenuBase = styled(Menu)`
   height: 100vh;
@@ -26,11 +27,13 @@ const UserMenuBase = styled(Menu)`
 const UserMenu = memo(() => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const [searchActive, setSearchActive] = useState(false)
 
   const handleHome = useCallback(() => navigate("/dashboard"), [])
-  const handleSearch = useCallback(() => {}, [])
   const handleMyProfile = useCallback(() => navigate("/dashboard/profile"), [])
   const handleLogOut = useSetAtom(logout)
+  const handleSearch = useCallback(() => setSearchActive(true), [])
+  const handleDrawerClose = useCallback(() => setSearchActive(false), [])
 
   return (
     <UserMenuBase large className={Classes.ELEVATION_2}>
@@ -48,6 +51,7 @@ const UserMenu = memo(() => {
         onClick={handleMyProfile}
       />
       <MenuItem icon="log-out" text="Log Out" onClick={handleLogOut} />
+      <SearchDrawer isOpen={searchActive} onClose={handleDrawerClose} />
     </UserMenuBase>
   )
 })
