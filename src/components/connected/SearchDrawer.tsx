@@ -53,7 +53,7 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
   }, [isOpen, clearSearchTerm])
 
   useEffect(() => {
-    setSearchTerm(delayedCriteria)
+    setSearchTerm(delayedCriteria.length > 2 ? delayedCriteria : "")
   }, [delayedCriteria])
 
   return (

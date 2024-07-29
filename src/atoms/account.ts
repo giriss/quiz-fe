@@ -74,7 +74,7 @@ export const searchAccounts = loadable(
   atom(async (get, { signal }) => {
     const searchTerm = get(accountSearchTerm)
 
-    if (searchTerm.length < 3) {
+    if (searchTerm === "") {
       return undefined
     }
 
