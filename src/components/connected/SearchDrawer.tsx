@@ -6,10 +6,8 @@ import {
   DrawerSize,
   InputGroup,
   NonIdealState,
-  Spinner,
   Tooltip,
 } from "@blueprintjs/core"
-import Flex from "@react-css/flex"
 import { useAtomValue, useSetAtom } from "jotai"
 import {
   type ChangeEventHandler,
@@ -81,9 +79,11 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
           onChange={handleSearch}
         />
         {foundAccounts.state === "loading" && (
-          <Flex column justifyCenter style={{ flex: 1 }}>
-            <Spinner />
-          </Flex>
+          <SearchContainer>
+            {[0, 1, 2, 3, 4].map(key => (
+              <AccountTile loading key={key} id="fake" name="a fake fullname" />
+            ))}
+          </SearchContainer>
         )}
         {foundAccounts.state === "hasData" &&
           !!foundAccounts.data &&
