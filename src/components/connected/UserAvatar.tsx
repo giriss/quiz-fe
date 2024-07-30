@@ -6,19 +6,22 @@ import { Avatar } from "../base"
 
 type UserAvatarProps = Omit<ComponentPropsWithoutRef<typeof Avatar>, "$src">
 
-const UserAvatar = memo(({ className = "", ...props }: UserAvatarProps) => {
-  const profilePicture = useProfilePicture()
+const UserAvatar = memo(
+  ({ className = "", $size, ...props }: UserAvatarProps) => {
+    const profilePicture = useProfilePicture($size ? $size * 2 : undefined)
 
-  return (
-    <Avatar
-      {...props}
-      $src={profilePicture?.url}
-      className={clsx(className, {
-        [Classes.SKELETON]: profilePicture == null,
-      })}
-    />
-  )
-})
+    return (
+      <Avatar
+        {...props}
+        $src={profilePicture?.url}
+        $size={$size}
+        className={clsx(className, {
+          [Classes.SKELETON]: profilePicture == null,
+        })}
+      />
+    )
+  },
+)
 
 UserAvatar.displayName = "UserAvatar"
 

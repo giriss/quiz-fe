@@ -47,7 +47,7 @@ const UserMenu = memo(() => {
       <MenuItem
         active={pathname === "/dashboard/profile"}
         text="My Profile"
-        icon={<UserAvatar $size="16px" />}
+        icon={<UserAvatar $size={16} />}
         onClick={handleMyProfile}
       />
       <MenuItem icon="log-out" text="Log Out" onClick={handleLogOut} />

@@ -50,7 +50,7 @@ const AccountTile = memo(function ({
       url: { secure: true },
     })
       .image(`${id}_${pictureId}`)
-      .resize(thumbnail(200, 200).gravity(focusOn(face())).zoom(0.8))
+      .resize(thumbnail(64, 64).gravity(focusOn(face())).zoom(0.8))
       .toURL()
   }, [pictureId, id])
 
@@ -59,7 +59,7 @@ const AccountTile = memo(function ({
       <Avatar
         className={clsx({ [Classes.SKELETON]: loading })}
         $src={pictureUrl}
-        $size="32px"
+        $size={32}
       />
       <div>
         <span className={clsx({ [Classes.SKELETON]: loading })}>{name}</span>

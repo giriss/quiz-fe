@@ -52,7 +52,9 @@ interface ProfilePicture {
   type: "picture" | "placeholder"
 }
 
-export const useProfilePicture = (): ProfilePicture | undefined => {
+export const useProfilePicture = (
+  size: number = 200,
+): ProfilePicture | undefined => {
   const account = useAccount()
 
   return useMemo(() => {
@@ -65,7 +67,7 @@ export const useProfilePicture = (): ProfilePicture | undefined => {
         return {
           url: cloudinary
             .image(`${account.id}_${account.pictureId}`)
-            .resize(thumbnail(200, 200).gravity(focusOn(face())).zoom(0.8))
+            .resize(thumbnail(size, size).gravity(focusOn(face())).zoom(0.8))
             .toURL(),
           type: "picture",
         }
@@ -75,5 +77,5 @@ export const useProfilePicture = (): ProfilePicture | undefined => {
         type: "placeholder",
       }
     }
-  }, [account?.id, account?.pictureId])
+  }, [account?.id, account?.pictureId, size])
 }
