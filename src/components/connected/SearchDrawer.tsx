@@ -32,7 +32,8 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
     searchInputRef.current?.focus()
   }, [])
 
-  const [criteria, delayedCriteria, setCriteria] = useDebounce("", 1_000)
+  const [delayedCriteria, setCriteria, criteria, setCriteriaWithoutDebounce] =
+    useDebounce("", 1_000)
   const setSearchTerm = useSetAtom(accountSearchTerm)
   const handleSearch = useCallback<ChangeEventHandler<HTMLInputElement>>(
     event => setCriteria(event.target.value),
@@ -43,11 +44,11 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
 
   const clearSearchTerm = useCallback(() => {
     setSearchTerm("")
-    setCriteria("")
+    setCriteriaWithoutDebounce("")
   }, [])
 
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) {
       clearSearchTerm()
     }
   }, [isOpen, clearSearchTerm])

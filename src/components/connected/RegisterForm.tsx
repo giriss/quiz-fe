@@ -44,7 +44,7 @@ const RegisterForm = memo(() => {
   const username = watch("username")
   const setUsernameSearchTerm = useSetAtom(usernameSearchTerm)
   const usernameAvailability = useAtomValue(checkUsernameAvailability)
-  const [, delayedUsername, setUsername] = useDebounce<string | undefined>(
+  const [delayedUsername, setUsername] = useDebounce<string | undefined>(
     undefined,
     1_000,
   )
