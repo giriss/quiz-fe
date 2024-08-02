@@ -18,6 +18,7 @@ export interface UserRegister extends UserLogin {
 
 export interface UserSearchItem {
   id: string
+  username: string
   name: string
   pictureId?: string
 }

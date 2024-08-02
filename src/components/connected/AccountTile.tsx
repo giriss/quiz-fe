@@ -30,14 +30,14 @@ const AccountTileBase = styled.aside<{ $loading?: boolean }>`
 
 interface AccountTileProps {
   readonly id: string
-  readonly name: string
+  readonly username: string
   readonly pictureId?: string
   readonly loading?: boolean
 }
 
 const AccountTile = memo(function ({
   id,
-  name,
+  username,
   pictureId,
   loading = false,
 }: AccountTileProps) {
@@ -62,7 +62,9 @@ const AccountTile = memo(function ({
         $size={32}
       />
       <div>
-        <span className={clsx({ [Classes.SKELETON]: loading })}>{name}</span>
+        <span className={clsx({ [Classes.SKELETON]: loading })}>
+          {username}
+        </span>
       </div>
     </AccountTileBase>
   )

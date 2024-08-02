@@ -81,7 +81,12 @@ const SearchDrawer = memo(({ isOpen, ...props }: SearchDrawerProps) => {
         {foundAccounts.state === "loading" && (
           <SearchContainer>
             {[0, 1, 2, 3, 4].map(key => (
-              <AccountTile loading key={key} id="fake" name="a fake fullname" />
+              <AccountTile
+                loading
+                key={key}
+                id="fake"
+                username="_a.fake-username_"
+              />
             ))}
           </SearchContainer>
         )}
