@@ -22,6 +22,11 @@ export interface UserSearchItem {
   pictureId?: string
 }
 
+export interface UsernameAvailability {
+  username: string
+  available: boolean
+}
+
 export interface UserResponse extends UserSearchItem {
   createdAt: DateTime
 }
@@ -78,6 +83,18 @@ export const getSearch = async (
     await response.json().then((data: never[]) => data.map(processResponse)),
     response.headers.get("x-token")!,
   )
+}
+
+export const getUsernameAvailability = async (
+  query: string,
+  signal?: AbortSignal,
+): Promise<UsernameAvailability> => {
+  const response = await fetch(
+    `${REST_ENDPOINT}accounts/username-availability/${encodeURIComponent(query)}`,
+    { ...withoutBody(), signal },
+  )
+
+  return await response.json().then(processResponse)
 }
 
 export const postProfilePicture = async (

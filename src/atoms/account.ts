@@ -9,6 +9,7 @@ import {
   register,
   postProfilePicture,
   getSearch,
+  getUsernameAvailability,
 } from "@/api"
 
 export const loggedInToken = atom<string | undefined>(undefined)
@@ -83,6 +84,20 @@ export const searchAccounts = loadable(
     return await getSearch(searchTerm, token, signal).then(
       ([accounts]) => accounts,
     )
+  }),
+)
+
+export const usernameSearchTerm = atom<string | undefined>(undefined)
+
+export const checkUsernameAvailability = loadable(
+  atom(async (get, { signal }) => {
+    const usernameTerm = get(usernameSearchTerm)
+
+    if (!usernameTerm) {
+      return undefined
+    }
+
+    return await getUsernameAvailability(usernameTerm, signal)
   }),
 )
 
