@@ -77,12 +77,8 @@ const RegisterForm = memo(() => {
 
   const register = useSetAtom(postRegister)
   const handleRegister: FormEventHandler<HTMLFormElement> = useCallback(
-    event => {
-      if (usernameAvailable) {
-        handleSubmit(register)(event)
-      }
-    },
-    [handleSubmit, register],
+    event => (usernameAvailable ? handleSubmit(register)(event) : undefined),
+    [usernameAvailable, handleSubmit, register],
   )
 
   return (

@@ -8,12 +8,15 @@ import {
 } from "./utils"
 
 export interface UserLogin {
-  email: string
+  identifier: string
   password: string
 }
 
-export interface UserRegister extends UserLogin {
+export interface UserRegister {
+  username: string
   name: string
+  email: string
+  password: string
 }
 
 export interface UserSearchItem {

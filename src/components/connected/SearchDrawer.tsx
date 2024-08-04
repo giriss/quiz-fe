@@ -8,7 +8,6 @@ import {
   NonIdealState,
   Tooltip,
 } from "@blueprintjs/core"
-import { useAtomValue, useSetAtom } from "jotai"
 import {
   type ChangeEventHandler,
   memo,
@@ -16,6 +15,7 @@ import {
   useEffect,
   useRef,
 } from "react"
+import { useAtomValue, useSetAtom } from "jotai"
 import styled from "styled-components"
 import { useDebounce } from "@/utils"
 import { accountSearchTerm, searchAccounts } from "@/atoms"

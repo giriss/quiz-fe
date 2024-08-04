@@ -10,7 +10,6 @@ import {
 import Flex from "@react-css/flex"
 import { Controller, useForm } from "react-hook-form"
 import { useSetAtom } from "jotai"
-import { EMAIL_REGEX } from "@/constants"
 import { postLogin } from "@/atoms"
 import PasswordInputGroup from "../base/PasswordInputGroup"
 
@@ -22,7 +21,7 @@ const LoginForm = memo(() => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   })
@@ -35,20 +34,16 @@ const LoginForm = memo(() => {
       <form onSubmit={handleSubmit(login)}>
         <Controller
           control={control}
-          name="email"
+          name="identifier"
           rules={{
-            required: "Email can't be blank",
-            pattern: {
-              value: EMAIL_REGEX,
-              message: "Email address is invalid",
-            },
+            required: "Email / Username can't be blank",
           }}
           render={({
             field: { ref, ...otherProps },
             fieldState: { error },
           }) => (
             <FormGroup
-              label="Email"
+              label="Email / Username"
               labelFor="login-email-field"
               intent={error ? "danger" : undefined}
               helperText={error ? error.message : undefined}
