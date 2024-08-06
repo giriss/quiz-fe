@@ -1,17 +1,11 @@
 import { memo } from "react"
-import {
-  Button,
-  Card,
-  Elevation,
-  FormGroup,
-  H1,
-  InputGroup,
-} from "@blueprintjs/core"
+import { Button, Card, Elevation, H1, InputGroup } from "@blueprintjs/core"
 import Flex from "@react-css/flex"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useSetAtom } from "jotai"
 import { postLogin } from "@/atoms"
 import PasswordInputGroup from "../base/PasswordInputGroup"
+import { ControlledFormGroup } from "../base"
 
 const LoginForm = memo(() => {
   const {
@@ -32,56 +26,24 @@ const LoginForm = memo(() => {
     <Card elevation={Elevation.THREE}>
       <H1 style={{ marginBottom: "10px" }}>Login</H1>
       <form onSubmit={handleSubmit(login)}>
-        <Controller
+        <ControlledFormGroup
           control={control}
+          label="Email / Username"
           name="identifier"
           rules={{
             required: "Email / Username can't be blank",
           }}
-          render={({
-            field: { ref, ...otherProps },
-            fieldState: { error },
-          }) => (
-            <FormGroup
-              label="Email / Username"
-              labelFor="login-email-field"
-              intent={error ? "danger" : undefined}
-              helperText={error ? error.message : undefined}
-            >
-              <InputGroup
-                {...otherProps}
-                id="login-email-field"
-                placeholder="someone@example.com"
-                inputRef={ref}
-                intent={error ? "danger" : undefined}
-              />
-            </FormGroup>
-          )}
-        />
-        <Controller
+        >
+          {props => <InputGroup {...props} placeholder="someone@example.com" />}
+        </ControlledFormGroup>
+        <ControlledFormGroup
           control={control}
           name="password"
+          label="Password"
           rules={{ required: "Password can't be empty" }}
-          render={({
-            field: { ref, ...otherProps },
-            fieldState: { error },
-          }) => (
-            <FormGroup
-              label="Password"
-              labelFor="login-password-field"
-              intent={error ? "danger" : undefined}
-              helperText={error ? error.message : undefined}
-            >
-              <PasswordInputGroup
-                {...otherProps}
-                id="login-password-field"
-                placeholder="**********"
-                inputRef={ref}
-                intent={error ? "danger" : undefined}
-              />
-            </FormGroup>
-          )}
-        />
+        >
+          {props => <PasswordInputGroup {...props} placeholder="**********" />}
+        </ControlledFormGroup>
         <Flex justifyEnd>
           <Button intent="primary" type="submit" disabled={!isValid}>
             Login
